@@ -9,10 +9,8 @@
 /* Begin PBXBuildFile section */
 		A6AAAA6B2B10F02B00C0414F /* PodCastPackage in Frameworks */ = {isa = PBXBuildFile; productRef = A6AAAA6A2B10F02B00C0414F /* PodCastPackage */; };
 		A6BD3BC42B10BE9600FA71D4 /* PodCast_AppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6BD3BC32B10BE9600FA71D4 /* PodCast_AppApp.swift */; };
-		A6BD3BC62B10BE9600FA71D4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6BD3BC52B10BE9600FA71D4 /* ContentView.swift */; };
 		A6BD3BC82B10BE9800FA71D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A6BD3BC72B10BE9800FA71D4 /* Assets.xcassets */; };
 		A6BD3BCB2B10BE9800FA71D4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A6BD3BCA2B10BE9800FA71D4 /* Preview Assets.xcassets */; };
-		A6BD3BCD2B10BE9800FA71D4 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6BD3BCC2B10BE9800FA71D4 /* Persistence.swift */; };
 		A6BD3BD02B10BE9800FA71D4 /* PodCast_App.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A6BD3BCE2B10BE9800FA71D4 /* PodCast_App.xcdatamodeld */; };
 		A6BD3BDA2B10BE9800FA71D4 /* PodCast_AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6BD3BD92B10BE9800FA71D4 /* PodCast_AppTests.swift */; };
 		A6BD3BE42B10BE9800FA71D4 /* PodCast_AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6BD3BE32B10BE9800FA71D4 /* PodCast_AppUITests.swift */; };
@@ -40,10 +38,8 @@
 		A6AAAA682B10DF3900C0414F /* PodCastPackage */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = PodCastPackage; sourceTree = "<group>"; };
 		A6BD3BC02B10BE9600FA71D4 /* PodCast App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PodCast App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6BD3BC32B10BE9600FA71D4 /* PodCast_AppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodCast_AppApp.swift; sourceTree = "<group>"; };
-		A6BD3BC52B10BE9600FA71D4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A6BD3BC72B10BE9800FA71D4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A6BD3BCA2B10BE9800FA71D4 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		A6BD3BCC2B10BE9800FA71D4 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		A6BD3BCF2B10BE9800FA71D4 /* PodCast_App.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PodCast_App.xcdatamodel; sourceTree = "<group>"; };
 		A6BD3BD52B10BE9800FA71D4 /* PodCast AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PodCast AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6BD3BD92B10BE9800FA71D4 /* PodCast_AppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodCast_AppTests.swift; sourceTree = "<group>"; };
@@ -111,9 +107,7 @@
 			isa = PBXGroup;
 			children = (
 				A6BD3BC32B10BE9600FA71D4 /* PodCast_AppApp.swift */,
-				A6BD3BC52B10BE9600FA71D4 /* ContentView.swift */,
 				A6BD3BC72B10BE9800FA71D4 /* Assets.xcassets */,
-				A6BD3BCC2B10BE9800FA71D4 /* Persistence.swift */,
 				A6BD3BCE2B10BE9800FA71D4 /* PodCast_App.xcdatamodeld */,
 				A6BD3BC92B10BE9800FA71D4 /* Preview Content */,
 			);
@@ -278,8 +272,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A6BD3BCD2B10BE9800FA71D4 /* Persistence.swift in Sources */,
-				A6BD3BC62B10BE9600FA71D4 /* ContentView.swift in Sources */,
 				A6BD3BD02B10BE9800FA71D4 /* PodCast_App.xcdatamodeld in Sources */,
 				A6BD3BC42B10BE9600FA71D4 /* PodCast_AppApp.swift in Sources */,
 			);

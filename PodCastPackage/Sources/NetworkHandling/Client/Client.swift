@@ -2,11 +2,13 @@
 //  File.swift
 //  
 //
-//  Created by Naif Alrashed on 13/09/2022.
+//  Created by islam Awaad on 25/11/2023.
 //
 
 import Foundation
 import Logging
+
+public typealias SessionDependencies = (client : Client, session: Session)
 
 public struct Client {
     let client: (URLRequest) async throws -> (Data, HTTPURLResponse)
