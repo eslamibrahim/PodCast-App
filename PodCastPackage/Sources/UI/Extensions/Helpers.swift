@@ -54,19 +54,20 @@ public struct RoundedCorner: Shape {
 public struct CircleButtonStyle: ButtonStyle {
 
     var imageName: String
-    var foreground = Color.black
-    var background = Color.white
+    var foreground = Color.white
+    var background = Color.black
     var width: CGFloat = 40
     var height: CGFloat = 40
 
-    public init(imageName: String) {
+    public init(imageName: String,background: Color = Color.black ) {
         self.imageName = imageName
+        self.background = background
     }
 
     public func makeBody(configuration: Configuration) -> some View {
         Circle()
-            .fill(background)
-            .overlay(Image(systemName: imageName)
+            .fill(background.opacity(0.5))
+            .overlay(Image(imageName)
                         .resizable()
                         .scaledToFit()
                         .foregroundColor(foreground)

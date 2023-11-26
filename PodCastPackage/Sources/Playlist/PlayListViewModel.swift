@@ -27,6 +27,7 @@ class PlayListViewModel: ObservableObject {
         }
         catch {
             state.state = .error(error.localizedDescription)
+            dependencies.session.logout()
         }
     }
     

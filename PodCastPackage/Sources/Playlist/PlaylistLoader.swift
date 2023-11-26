@@ -102,4 +102,16 @@ struct Playlist: Codable, Hashable {
         case userID = "userId"
         case isSubscribed
     }
+    
+    var episodeTotalDurationString: String {
+        if let episodeTotalDuration {
+            let TotalDuration = secondsToHoursMinutesSeconds(episodeTotalDuration)
+            return "\(TotalDuration.0) ساعات" + "\(TotalDuration.1) دقائق" + "\(TotalDuration.2) ثواني"
+        }
+        return ""
+    }
+    
+    func secondsToHoursMinutesSeconds(_ seconds: Int) -> (Int, Int, Int) {
+        return (seconds / 3600, (seconds % 3600) / 60, (seconds % 3600) % 60)
+    }
 }

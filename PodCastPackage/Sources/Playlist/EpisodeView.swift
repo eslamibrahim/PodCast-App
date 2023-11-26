@@ -20,7 +20,7 @@ struct EpisodeView: View {
                     .frame(width: 76, height: 76)
                     .cornerRadius(8, corners: .allCorners)
                 
-                VStack(alignment: .leading) {
+                VStack(alignment: .leading,spacing: 2) {
                     Text(episode.name ?? "")
                         .lineLimit(2)
                         .font(.semiBoldName)
@@ -32,8 +32,15 @@ struct EpisodeView: View {
                         .foregroundColor(Color.black.opacity(0.4))
                 }
                 Spacer()
+                HStack {
+                    Button(action: {}, label: {
+                        Image("Play")
+                    })
+                    Button(action: {}, label: {
+                        Image("menu")
+                    })
+                }
             }
-            .font(.RegularSmallText)
             Divider()
             Spacer()
         }

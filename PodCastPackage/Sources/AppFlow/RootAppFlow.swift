@@ -29,7 +29,11 @@ public class RootAppFlow: UIViewController {
     
     public override func viewDidLoad() {
         bind()
-        addVC(child: mainTabsView)
+        if dependencies.session.isLoggedIn {
+            addVC(child: mainTabsView)
+        } else {
+            addVC(child: loginVC)
+        }
     }
     
     func makeLoginScreen() -> UIViewController {
@@ -54,6 +58,9 @@ public class RootAppFlow: UIViewController {
                 if case .loggedIn = loginStatus {
                     self.loginVC.remove()
                     self.addVC(child: self.mainTabsView)
+                } else {
+                    self.mainTabsView.remove()
+                    self.addVC(child: self.loginVC)
                 }
         }
         .store(in: &subscriptions)
