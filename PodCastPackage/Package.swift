@@ -50,7 +50,8 @@ let package = Package(
         
             .testTarget(
                 name: "PodCastPackageTests",
-                dependencies: ["PodCastPackage"]),
+                dependencies: ["PodCastPackage"],
+                resources: [.process("Resources")]),
         
             .target(
                 name: "NetworkHandling",

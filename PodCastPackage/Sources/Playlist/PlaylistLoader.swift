@@ -10,17 +10,17 @@ import Foundation
 import Foundation
 import NetworkHandling
 
-class PlaylistLoader {
+public class PlaylistLoader {
     
    private let client: Client
    private let session: Session
     
-   init(client: Client, session: Session) {
+  public init(client: Client, session: Session) {
         self.client = client
         self.session = session
     }
 
-    func loadPlayList() async throws -> PlayListResponse {
+   public func loadPlayList() async throws -> PlayListResponse {
         let request = URLRequest(
             method: .get,
             path: "api/playlist/01GVD0TTY5RRMHH6YMCW7N1H70",
@@ -37,7 +37,7 @@ class PlaylistLoader {
 
 
 // MARK: - PlayListResponse
-struct PlayListResponse: Codable, Hashable {
+public struct PlayListResponse: Codable, Hashable {
     let data: PlaylistData
 }
 
