@@ -29,7 +29,7 @@ public class RootAppFlow: UIViewController {
     
     public override func viewDidLoad() {
         bind()
-        addVC(child: loginVC)
+        addVC(child: mainTabsView)
     }
     
     func makeLoginScreen() -> UIViewController {
@@ -65,7 +65,10 @@ public class RootAppFlow: UIViewController {
 
 public struct RootAppFlowView: UIViewControllerRepresentable {
     
-    public init() {}
+    public init() {
+        registerFonts()
+        UIView.appearance().semanticContentAttribute = .forceRightToLeft
+    }
     
     public func makeUIViewController(context: Context) -> RootAppFlow {
         let viewController = RootAppFlow()

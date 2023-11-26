@@ -33,7 +33,6 @@ public struct Session {
         self.defaults = defaults
     }
     
-  
     public var isLoggedIn: Bool {
         return  token != nil
     }

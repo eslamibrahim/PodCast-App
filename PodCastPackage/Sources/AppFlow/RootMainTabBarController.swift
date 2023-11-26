@@ -51,7 +51,7 @@ class RootMainTabBarController: UITabBarController {
     
     func makePlayListFlow() -> UIViewController {
         let playListFlow = PlayListFlowViewController(dependencies: dependencies)
-        playListFlow.tabBarItem.title = "Home"
+        playListFlow.tabBarItem.title = "الرئيسية"
         playListFlow.tabBarItem.image = UIImage(systemName: "house.fill")
         return playListFlow
     }

@@ -37,7 +37,9 @@ let package = Package(
             from: "3.0.0"
         ),
         .package(url: "https://github.com/siteline/swiftui-introspect", from: "1.0.0"
-        ),],
+        ),
+        .package(url: "https://github.com/onevcat/Kingfisher.git",
+                 from: "7.6.2"),],
     
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -66,7 +68,9 @@ let package = Package(
                 name: "UI",
         dependencies: [
             .product(name: "SwiftUIIntrospect", package: "swiftui-introspect"),
-        ]),
+            .product(name: "Kingfisher", package: "Kingfisher"),
+        ],
+        resources: [.process("Resources")]),
         
         .target(
             name: "AppFlow",

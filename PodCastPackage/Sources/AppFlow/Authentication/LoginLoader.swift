@@ -24,7 +24,6 @@ class LoginLoader {
     ) async throws {
         let body = ["email": "\(email)", "password": password]
         let request = URLRequest(
-            url: "https://staging.podcast.kaitdev.com/client/",
             method: .post,
             path: "api/auth/login",
             body: .encode(body),

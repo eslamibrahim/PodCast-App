@@ -36,6 +36,7 @@
 
 /* Begin PBXFileReference section */
 		A6AAAA682B10DF3900C0414F /* PodCastPackage */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = PodCastPackage; sourceTree = "<group>"; };
+		A6AAAA6C2B132BCC00C0414F /* PodCast-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "PodCast-App-Info.plist"; sourceTree = SOURCE_ROOT; };
 		A6BD3BC02B10BE9600FA71D4 /* PodCast App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PodCast App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6BD3BC32B10BE9600FA71D4 /* PodCast_AppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodCast_AppApp.swift; sourceTree = "<group>"; };
 		A6BD3BC72B10BE9800FA71D4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -106,6 +107,7 @@
 		A6BD3BC22B10BE9600FA71D4 /* PodCast App */ = {
 			isa = PBXGroup;
 			children = (
+				A6AAAA6C2B132BCC00C0414F /* PodCast-App-Info.plist */,
 				A6BD3BC32B10BE9600FA71D4 /* PodCast_AppApp.swift */,
 				A6BD3BC72B10BE9800FA71D4 /* Assets.xcassets */,
 				A6BD3BCE2B10BE9800FA71D4 /* PodCast_App.xcdatamodeld */,
@@ -440,11 +442,11 @@
 				DEVELOPMENT_TEAM = 38QU2AL57L;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "PodCast-App-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -470,11 +472,11 @@
 				DEVELOPMENT_TEAM = 38QU2AL57L;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "PodCast-App-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
