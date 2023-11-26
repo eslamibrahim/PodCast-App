@@ -8,10 +8,11 @@
 
 import SwiftUI
 import UI
+import AVKit
 
 struct EpisodeView: View {
     let episode: Episode
-    
+    @State var openPlayer = false
     var body: some View {
         VStack {
             Divider()
@@ -33,7 +34,9 @@ struct EpisodeView: View {
                 }
                 Spacer()
                 HStack {
-                    Button(action: {}, label: {
+                    Button(action: {
+                        openPlayer.toggle()
+                    }, label: {
                         Image("Play")
                     })
                     Button(action: {}, label: {
@@ -44,6 +47,9 @@ struct EpisodeView: View {
             Divider()
             Spacer()
         }
+        .sheet(isPresented: $openPlayer, content: {
+            AVPlayerView(videoURL: episode.audioLink)
+        })
         .padding(.horizontal)
     }
 }

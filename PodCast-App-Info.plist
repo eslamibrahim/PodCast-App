@@ -12,5 +12,10 @@
 		<string>IBMPlexSansArabic-SemiBold.otf</string>
 		<string>IBMPlexSansArabic-Text.otf</string>
 	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>audio</string>
+		<string>processing</string>
+	</array>
 </dict>
 </plist>

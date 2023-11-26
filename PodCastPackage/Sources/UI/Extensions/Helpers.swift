@@ -80,24 +80,20 @@ public struct CircleButtonStyle: ButtonStyle {
 
 public struct FillImage: View {
     let url: URL?
-    @Environment(\.redactionReasons) var redactionReasons
     
     public init(_ url: URL?) {
         self.url = url
     }
     
     public var body: some View {
-        if redactionReasons.isEmpty {
             KFAnimatedImage(url)
                 .placeholder { _ in
                     Color.gray.opacity(0.8)
                 }
                 .aspectRatio(contentMode: .fill)
-        }  else {
-            Color.gray.opacity(0.8)
-       }
+        }
     }
-}
+
 
 
 

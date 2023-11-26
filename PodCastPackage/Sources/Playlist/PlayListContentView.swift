@@ -87,7 +87,7 @@ struct PlayListContentView: View {
                 .frame(height: minHeight)
                 .clipShape(RoundedRectangle(cornerRadius: 6.0))
             
-            Text("kkdk kwkdmksdod")
+            Text("")
             
         }
     }

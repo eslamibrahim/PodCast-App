@@ -61,6 +61,7 @@ public class RootAppFlow: UIViewController {
                 } else {
                     self.mainTabsView.remove()
                     self.addVC(child: self.loginVC)
+                    self.mainTabsView = self.makeRootMainTabBarController()
                 }
         }
         .store(in: &subscriptions)

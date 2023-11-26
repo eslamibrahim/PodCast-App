@@ -26,7 +26,7 @@ struct PlaylistScreenView: View {
                 Spacer()
             }
         }
-        .onViewDidLoad{
+        .onViewDidLoad {
             Task{ await viewModel.loadPlayList()}
         }
     }
