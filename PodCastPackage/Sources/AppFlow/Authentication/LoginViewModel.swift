@@ -34,8 +34,8 @@ class LoginViewModel: ObservableObject {
     struct Status: Hashable {
         
         var state: Status.State = .idle
-        var username: String = "ajbusaleh@gmail.com"
-        var password: String = "123123aJ*"
+        var username: String = "OmarAdmin"
+        var password: String = "123456"
         
         enum State: Hashable {
             case loading

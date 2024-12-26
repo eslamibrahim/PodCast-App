@@ -10,10 +10,10 @@ import UIKit
 import NetworkHandling
 import SwiftUI
 
-public class PlayListFlowViewController: UINavigationController {
+public class HomeFlowViewController: UINavigationController {
     
     let dependencies : SessionDependencies
-    lazy var playlistScreen = makePlaylistScreenView()
+    lazy var HomeScreen = makeHomeScreenView()
     var leftBarButtonItemView: UIView {
          UIImageView(image: UIImage(systemName: "arrow.backward"))
     }
@@ -32,7 +32,7 @@ public class PlayListFlowViewController: UINavigationController {
     public override func viewDidLoad() {
         super.viewDidLoad()
 
-        setViewControllers([playlistScreen], animated: false)
+        setViewControllers([HomeScreen], animated: false)
     }
     
     public override func viewWillAppear(_ animated: Bool) {
@@ -40,9 +40,9 @@ public class PlayListFlowViewController: UINavigationController {
         setNavigationBarHidden(true, animated: animated)
     }
     
-    func makePlaylistScreenView() -> UIViewController {
-        let viewModel = PlayListViewModel(dependencies: dependencies)
-        let vc = UIHostingController(rootView: PlaylistScreenView(viewModel: viewModel))
+    func makeHomeScreenView() -> UIViewController {
+        let viewModel = HomeViewModel(dependencies: dependencies)
+        let vc = UIHostingController(rootView: HomeListView(viewModel: viewModel))
         return vc
     }
 }

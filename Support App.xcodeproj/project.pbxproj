@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A67D90E72D15C365004086F2 /* splash.json in Resources */ = {isa = PBXBuildFile; fileRef = A67D90E62D15C365004086F2 /* splash.json */; };
+		A67D90E92D15C369004086F2 /* login.json in Resources */ = {isa = PBXBuildFile; fileRef = A67D90E82D15C369004086F2 /* login.json */; };
 		A6AAAA6B2B10F02B00C0414F /* PodCastPackage in Frameworks */ = {isa = PBXBuildFile; productRef = A6AAAA6A2B10F02B00C0414F /* PodCastPackage */; };
 		A6BD3BC42B10BE9600FA71D4 /* PodCast_AppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6BD3BC32B10BE9600FA71D4 /* PodCast_AppApp.swift */; };
 		A6BD3BC82B10BE9800FA71D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A6BD3BC72B10BE9800FA71D4 /* Assets.xcassets */; };
@@ -35,16 +37,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A67D90E62D15C365004086F2 /* splash.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = splash.json; sourceTree = "<group>"; };
+		A67D90E82D15C369004086F2 /* login.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = login.json; sourceTree = "<group>"; };
 		A6AAAA682B10DF3900C0414F /* PodCastPackage */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = PodCastPackage; sourceTree = "<group>"; };
 		A6AAAA6C2B132BCC00C0414F /* PodCast-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "PodCast-App-Info.plist"; sourceTree = SOURCE_ROOT; };
-		A6BD3BC02B10BE9600FA71D4 /* PodCast App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PodCast App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A6BD3BC02B10BE9600FA71D4 /* Support App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Support App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6BD3BC32B10BE9600FA71D4 /* PodCast_AppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodCast_AppApp.swift; sourceTree = "<group>"; };
 		A6BD3BC72B10BE9800FA71D4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A6BD3BCA2B10BE9800FA71D4 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		A6BD3BCF2B10BE9800FA71D4 /* PodCast_App.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PodCast_App.xcdatamodel; sourceTree = "<group>"; };
-		A6BD3BD52B10BE9800FA71D4 /* PodCast AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PodCast AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A6BD3BD52B10BE9800FA71D4 /* Support AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Support AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6BD3BD92B10BE9800FA71D4 /* PodCast_AppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodCast_AppTests.swift; sourceTree = "<group>"; };
-		A6BD3BDF2B10BE9800FA71D4 /* PodCast AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PodCast AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A6BD3BDF2B10BE9800FA71D4 /* Support AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Support AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6BD3BE32B10BE9800FA71D4 /* PodCast_AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodCast_AppUITests.swift; sourceTree = "<group>"; };
 		A6BD3BE52B10BE9800FA71D4 /* PodCast_AppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodCast_AppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -97,9 +101,9 @@
 		A6BD3BC12B10BE9600FA71D4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A6BD3BC02B10BE9600FA71D4 /* PodCast App.app */,
-				A6BD3BD52B10BE9800FA71D4 /* PodCast AppTests.xctest */,
-				A6BD3BDF2B10BE9800FA71D4 /* PodCast AppUITests.xctest */,
+				A6BD3BC02B10BE9600FA71D4 /* Support App.app */,
+				A6BD3BD52B10BE9800FA71D4 /* Support AppTests.xctest */,
+				A6BD3BDF2B10BE9800FA71D4 /* Support AppUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -108,6 +112,8 @@
 			isa = PBXGroup;
 			children = (
 				A6AAAA6C2B132BCC00C0414F /* PodCast-App-Info.plist */,
+				A67D90E62D15C365004086F2 /* splash.json */,
+				A67D90E82D15C369004086F2 /* login.json */,
 				A6BD3BC32B10BE9600FA71D4 /* PodCast_AppApp.swift */,
 				A6BD3BC72B10BE9800FA71D4 /* Assets.xcassets */,
 				A6BD3BCE2B10BE9800FA71D4 /* PodCast_App.xcdatamodeld */,
@@ -144,9 +150,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		A6BD3BBF2B10BE9600FA71D4 /* PodCast App */ = {
+		A6BD3BBF2B10BE9600FA71D4 /* Support App */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A6BD3BE92B10BE9800FA71D4 /* Build configuration list for PBXNativeTarget "PodCast App" */;
+			buildConfigurationList = A6BD3BE92B10BE9800FA71D4 /* Build configuration list for PBXNativeTarget "Support App" */;
 			buildPhases = (
 				A6BD3BBC2B10BE9600FA71D4 /* Sources */,
 				A6BD3BBD2B10BE9600FA71D4 /* Frameworks */,
@@ -156,17 +162,17 @@
 			);
 			dependencies = (
 			);
-			name = "PodCast App";
+			name = "Support App";
 			packageProductDependencies = (
 				A6AAAA6A2B10F02B00C0414F /* PodCastPackage */,
 			);
 			productName = "PodCast App";
-			productReference = A6BD3BC02B10BE9600FA71D4 /* PodCast App.app */;
+			productReference = A6BD3BC02B10BE9600FA71D4 /* Support App.app */;
 			productType = "com.apple.product-type.application";
 		};
-		A6BD3BD42B10BE9800FA71D4 /* PodCast AppTests */ = {
+		A6BD3BD42B10BE9800FA71D4 /* Support AppTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A6BD3BEC2B10BE9800FA71D4 /* Build configuration list for PBXNativeTarget "PodCast AppTests" */;
+			buildConfigurationList = A6BD3BEC2B10BE9800FA71D4 /* Build configuration list for PBXNativeTarget "Support AppTests" */;
 			buildPhases = (
 				A6BD3BD12B10BE9800FA71D4 /* Sources */,
 				A6BD3BD22B10BE9800FA71D4 /* Frameworks */,
@@ -177,14 +183,14 @@
 			dependencies = (
 				A6BD3BD72B10BE9800FA71D4 /* PBXTargetDependency */,
 			);
-			name = "PodCast AppTests";
+			name = "Support AppTests";
 			productName = "PodCast AppTests";
-			productReference = A6BD3BD52B10BE9800FA71D4 /* PodCast AppTests.xctest */;
+			productReference = A6BD3BD52B10BE9800FA71D4 /* Support AppTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		A6BD3BDE2B10BE9800FA71D4 /* PodCast AppUITests */ = {
+		A6BD3BDE2B10BE9800FA71D4 /* Support AppUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A6BD3BEF2B10BE9800FA71D4 /* Build configuration list for PBXNativeTarget "PodCast AppUITests" */;
+			buildConfigurationList = A6BD3BEF2B10BE9800FA71D4 /* Build configuration list for PBXNativeTarget "Support AppUITests" */;
 			buildPhases = (
 				A6BD3BDB2B10BE9800FA71D4 /* Sources */,
 				A6BD3BDC2B10BE9800FA71D4 /* Frameworks */,
@@ -195,9 +201,9 @@
 			dependencies = (
 				A6BD3BE12B10BE9800FA71D4 /* PBXTargetDependency */,
 			);
-			name = "PodCast AppUITests";
+			name = "Support AppUITests";
 			productName = "PodCast AppUITests";
-			productReference = A6BD3BDF2B10BE9800FA71D4 /* PodCast AppUITests.xctest */;
+			productReference = A6BD3BDF2B10BE9800FA71D4 /* Support AppUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -223,7 +229,7 @@
 					};
 				};
 			};
-			buildConfigurationList = A6BD3BBB2B10BE9600FA71D4 /* Build configuration list for PBXProject "PodCast App" */;
+			buildConfigurationList = A6BD3BBB2B10BE9600FA71D4 /* Build configuration list for PBXProject "Support App" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -236,9 +242,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				A6BD3BBF2B10BE9600FA71D4 /* PodCast App */,
-				A6BD3BD42B10BE9800FA71D4 /* PodCast AppTests */,
-				A6BD3BDE2B10BE9800FA71D4 /* PodCast AppUITests */,
+				A6BD3BBF2B10BE9600FA71D4 /* Support App */,
+				A6BD3BD42B10BE9800FA71D4 /* Support AppTests */,
+				A6BD3BDE2B10BE9800FA71D4 /* Support AppUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -250,6 +256,8 @@
 			files = (
 				A6BD3BCB2B10BE9800FA71D4 /* Preview Assets.xcassets in Resources */,
 				A6BD3BC82B10BE9800FA71D4 /* Assets.xcassets in Resources */,
+				A67D90E92D15C369004086F2 /* login.json in Resources */,
+				A67D90E72D15C365004086F2 /* splash.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -301,12 +309,12 @@
 /* Begin PBXTargetDependency section */
 		A6BD3BD72B10BE9800FA71D4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = A6BD3BBF2B10BE9600FA71D4 /* PodCast App */;
+			target = A6BD3BBF2B10BE9600FA71D4 /* Support App */;
 			targetProxy = A6BD3BD62B10BE9800FA71D4 /* PBXContainerItemProxy */;
 		};
 		A6BD3BE12B10BE9800FA71D4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = A6BD3BBF2B10BE9600FA71D4 /* PodCast App */;
+			target = A6BD3BBF2B10BE9600FA71D4 /* Support App */;
 			targetProxy = A6BD3BE02B10BE9800FA71D4 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -443,6 +451,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "PodCast-App-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Support App";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -473,6 +482,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "PodCast-App-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Support App";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -507,7 +517,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PodCast App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/PodCast App";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Support App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Support App";
 			};
 			name = Debug;
 		};
@@ -527,7 +537,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PodCast App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/PodCast App";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Support App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Support App";
 			};
 			name = Release;
 		};
@@ -570,7 +580,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A6BD3BBB2B10BE9600FA71D4 /* Build configuration list for PBXProject "PodCast App" */ = {
+		A6BD3BBB2B10BE9600FA71D4 /* Build configuration list for PBXProject "Support App" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A6BD3BE72B10BE9800FA71D4 /* Debug */,
@@ -579,7 +589,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A6BD3BE92B10BE9800FA71D4 /* Build configuration list for PBXNativeTarget "PodCast App" */ = {
+		A6BD3BE92B10BE9800FA71D4 /* Build configuration list for PBXNativeTarget "Support App" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A6BD3BEA2B10BE9800FA71D4 /* Debug */,
@@ -588,7 +598,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A6BD3BEC2B10BE9800FA71D4 /* Build configuration list for PBXNativeTarget "PodCast AppTests" */ = {
+		A6BD3BEC2B10BE9800FA71D4 /* Build configuration list for PBXNativeTarget "Support AppTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A6BD3BED2B10BE9800FA71D4 /* Debug */,
@@ -597,7 +607,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A6BD3BEF2B10BE9800FA71D4 /* Build configuration list for PBXNativeTarget "PodCast AppUITests" */ = {
+		A6BD3BEF2B10BE9800FA71D4 /* Build configuration list for PBXNativeTarget "Support AppUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A6BD3BF02B10BE9800FA71D4 /* Debug */,

@@ -7,7 +7,7 @@
 
 import Foundation
 import SwiftUI
-
+import Lottie
 
 struct LoginView: View {
 
@@ -15,15 +15,18 @@ struct LoginView: View {
     
     var body: some View {
         ZStack {
-            Color.white
+            Color.orange
                 .edgesIgnoringSafeArea(.all)
             VStack {
-                Image("background")
-                    .resizable()
-                
-                Text("Login")
-                    .font(.largeTitle)
-                    .padding()
+
+                LottieView {
+                    LottieAnimation.named("login")?.animationSource
+                } placeholder: {
+                    Text("Loading...")
+                }
+                .playing(loopMode: .loop)
+                .reloadAnimationTrigger("login", showPlaceholder: true)
+                .animationSpeed(0.4)
                 
                 TextField("Username", text: $viewModel.state.username)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -43,7 +46,7 @@ struct LoginView: View {
                         .foregroundColor(.white)
                         .padding()
                         .frame(maxWidth: .infinity)
-                        .background(Color.blue)
+                        .background(Color.orange)
                         .cornerRadius(10)
                 }
                 .disabled(viewModel.state.isLoginDisabled)
@@ -54,6 +57,7 @@ struct LoginView: View {
                         .padding()
                 }
             }
+            .padding()
         }
     }
     

@@ -11,11 +11,13 @@ import NetworkHandling
 import SwiftUI
 import UI
 import Combine
+import Lottie
 
 public class RootAppFlow: UIViewController {
     let dependencies: SessionDependencies
     lazy var loginVC = makeLoginScreen()
     lazy var mainTabsView = makeRootMainTabBarController()
+    lazy var animationView = makeSplashAnimationView(fileName: "splash")
     var subscriptions = Set<AnyCancellable>()
 
     public init() {
@@ -29,10 +31,22 @@ public class RootAppFlow: UIViewController {
     
     public override func viewDidLoad() {
         bind()
-        if dependencies.session.isLoggedIn {
-            addVC(child: mainTabsView)
-        } else {
-            addVC(child: loginVC)
+        showSplash()
+    }
+
+    private func showSplash() {
+        animationView.play { [weak self] _ in
+            guard let self = self else { return }
+            UIView.animate(withDuration: 0.3) {
+                self.animationView.alpha = 0
+            } completion: { _ in
+                self.animationView.removeFromSuperview()
+            }
+            if dependencies.session.isLoggedIn {
+                addVC(child: mainTabsView)
+            } else {
+                addVC(child: loginVC)
+            }
         }
     }
     
@@ -67,7 +81,16 @@ public class RootAppFlow: UIViewController {
         .store(in: &subscriptions)
     }
     
-    
+    func makeSplashAnimationView(fileName: String) -> LottieAnimationView {
+        let animationView = LottieAnimationView(name: fileName).autoLayout()
+        animationView.backgroundColor = .orange
+        view.addSubview(animationView)
+        view.pinToAllEdges(animationView)
+        animationView.contentMode = .scaleAspectFit
+        animationView.loopMode = .playOnce
+        return animationView
+    }
+
     
 }
 

@@ -9,26 +9,26 @@ import Foundation
 import NetworkHandling
 import Combine
 
-class PlayListViewModel: ObservableObject {
+class HomeViewModel: ObservableObject {
     
-    let playlistLoader: PlaylistLoader
+    let homeLoader: HomeLoader
     let dependencies : SessionDependencies
     @Published var state = Status()
     init(dependencies : SessionDependencies) {
         self.dependencies = dependencies
-        self.playlistLoader = .init(client: dependencies.client, session: dependencies.session)
+        self.homeLoader = .init(client: dependencies.client, session: dependencies.session)
     }
     
     @MainActor func loadPlayList() async {
-        state.state = .loading
-        do {
-            let playlist = try await playlistLoader.loadPlayList()
-            state.state = .success(playlist)
-        }
-        catch {
-            state.state = .error(error.localizedDescription)
-            dependencies.session.logout()
-        }
+//        state.state = .loading
+//        do {
+//            let playlist = try await playlistLoader.loadPlayList()
+//            state.state = .success(playlist)
+//        }
+//        catch {
+//            state.state = .error(error.localizedDescription)
+//            dependencies.session.logout()
+//        }
     }
     
     

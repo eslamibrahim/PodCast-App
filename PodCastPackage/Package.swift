@@ -39,14 +39,20 @@ let package = Package(
         .package(url: "https://github.com/siteline/swiftui-introspect", from: "1.0.0"
         ),
         .package(url: "https://github.com/onevcat/Kingfisher.git",
-                 from: "7.6.2"),],
+                 from: "7.6.2"),
+        .package(
+            url: "https://github.com/airbnb/lottie-ios.git",
+            from: "4.2.0"
+        )
+    ],
     
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
             name: "PodCastPackage",
-            dependencies: ["AppFlow"]),
+            dependencies: ["AppFlow",
+                           .product(name: "Lottie", package: "lottie-ios")]),
         
             .testTarget(
                 name: "PodCastPackageTests",
@@ -70,16 +76,13 @@ let package = Package(
         dependencies: [
             .product(name: "SwiftUIIntrospect", package: "swiftui-introspect"),
             .product(name: "Kingfisher", package: "Kingfisher"),
+            .product(name: "Lottie", package: "lottie-ios")
         ],
         resources: [.process("Resources")]),
         
-        .target(
-            name: "AppFlow",
-        dependencies: ["NetworkHandling",
-                       "Playlist"]),
         
         .target(
-            name: "Playlist",
+            name: "AppFlow",
         dependencies: ["NetworkHandling",
                        "UI"]),
         

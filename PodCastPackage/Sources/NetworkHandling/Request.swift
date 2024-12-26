@@ -21,7 +21,7 @@ public enum Method: String {
 
 public extension URLRequest {
     init(
-        url: String = "https://staging.podcast.kaitdev.com/client/",
+        url: String = "https://bassemwwe9-001-site1.otempurl.com/",
         method: Method = .get,
         path: String,
         queryItems: [String: String] = [:],

@@ -7,14 +7,14 @@
 
 import Foundation
 import UIKit
-import Playlist
 import NetworkHandling
+import SwiftUI
 
 class RootMainTabBarController: UITabBarController {
     
     
     let dependencies : SessionDependencies
-    lazy var playListFlow = makePlayListFlow()
+    lazy var homeFlow = makeHomeFlow()
     
     public init(dependencies: SessionDependencies) {
         self.dependencies = dependencies
@@ -38,19 +38,17 @@ class RootMainTabBarController: UITabBarController {
     
     
     func setupViewControllers() {
-        
-        let VC1 = setNavController(for: UIViewController(), title: "البحث", image: UIImage(systemName: "magnifyingglass")!, selectedImage: UIImage(systemName: "magnifyingglass")!)
-        let VC2 = setNavController(for: UIViewController(), title: "المكتبه", image: UIImage(systemName: "square.stack.3d.down.forward.fill")!, selectedImage: UIImage(systemName: "square.stack.3d.down.forward.fill")!)
+        let profileVC = UIHostingController(rootView: ProfileView())
+        let VC1 = setNavController(for: profileVC, title: "", image: UIImage(systemName: "ellipsis.circle")!, selectedImage: UIImage(systemName: "ellipsis.circle")!)
         
         viewControllers = [
-            playListFlow,
-            VC1,
-            VC2
+            homeFlow,
+            VC1
         ]
     }
     
-    func makePlayListFlow() -> UIViewController {
-        let playListFlow = PlayListFlowViewController(dependencies: dependencies)
+    func makeHomeFlow() -> UIViewController {
+        let playListFlow = HomeFlowViewController(dependencies: dependencies)
         playListFlow.tabBarItem.title = "الرئيسية"
         playListFlow.tabBarItem.image = UIImage(systemName: "house.fill")
         return playListFlow

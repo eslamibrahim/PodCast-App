@@ -10,7 +10,7 @@ import Foundation
 import Foundation
 import NetworkHandling
 
-public class PlaylistLoader {
+public class HomeLoader {
     
    private let client: Client
    private let session: Session
