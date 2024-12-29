@@ -13,7 +13,6 @@ struct PodCast_AppApp: App {
     var body: some Scene {
         WindowGroup {
             RootAppFlowView()
-                .environment(\.layoutDirection, .rightToLeft)
                 .ignoresSafeArea(.all)
         }
     }

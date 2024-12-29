@@ -19,16 +19,28 @@ class HomeViewModel: ObservableObject {
         self.homeLoader = .init(client: dependencies.client, session: dependencies.session)
     }
     
-    @MainActor func loadPlayList() async {
-//        state.state = .loading
-//        do {
-//            let playlist = try await playlistLoader.loadPlayList()
-//            state.state = .success(playlist)
-//        }
-//        catch {
-//            state.state = .error(error.localizedDescription)
-//            dependencies.session.logout()
-//        }
+    @MainActor func loadRequestsList() async {
+        state.state = .loading
+        do {
+            var list: [RequestElement] = []
+            if let user = dependencies.session.user {
+                switch user.role {
+                case .Admin:
+                    list = try await homeLoader.loadAdminRequestsList()
+                case .SuperVisor:
+                    list = try await homeLoader.loadSupervisorRequestsList()
+                case .WorkerManager:
+                    list = try await homeLoader.loadAdminRequestsList()
+                case .Worker:
+                    list = try await homeLoader.loadAdminRequestsList()
+                }
+            }
+            state.state = .success(list)
+        }
+        catch {
+            state.state = .error(error.localizedDescription)
+            dependencies.session.logout()
+        }
     }
     
     
@@ -38,24 +50,18 @@ class HomeViewModel: ObservableObject {
         
         enum State: Hashable {
             case loading
-            case success(PlayListResponse)
+            case success([RequestElement])
             case error(String)
             case idle
         }
         
-        var  playlist: Playlist? {
-            if case .success(let playListResponse) = state {
-                return playListResponse.data.playlist
+        var  list: [RequestElement]? {
+            if case .success(let listResponse) = state {
+                return listResponse
             }
             return nil
         }
-        
-        var episodes: [Episode] {
-            if case .success(let playListResponse) = state {
-                return playListResponse.data.episodes
-            }
-            return []
-        }
+
     }
     
 }

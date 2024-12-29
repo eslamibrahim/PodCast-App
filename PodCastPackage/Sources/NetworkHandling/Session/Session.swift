@@ -37,9 +37,24 @@ public struct Session {
         return  token != nil
     }
     
-    public func save(token: String) {
-        keychain.save(key: tokenKey, value: token)
+    public var user: AuthResponse? {
+        let userObject = defaults.object(forKey: userObjectKey) as! String
+        if let decodedPerson: AuthResponse = jsonStringToObject(userObject, type: AuthResponse.self) {
+            return decodedPerson
+        }
+        return nil
+    }
+    
+    public func save(user: AuthResponse) {
+        keychain.save(key: tokenKey, value: "\(user.userID)")
+        saveUserData(user: user)
         _loginStatus.send(.loggedIn)
+    }
+    
+    func saveUserData(user: AuthResponse) {
+        if let jsonString = objectToJSONString(user) {
+            defaults.set(jsonString, forKey: userObjectKey)
+        }
     }
     
     public var token: String? { 
@@ -97,3 +112,56 @@ public extension Session {
 let tokenKey = "token"
 let tokenDefaultsKey = "AuthToken"
 let userKey = "userKey"
+let userObjectKey = "userObjectKey"
+
+
+public struct AuthResponse: Codable {
+    public let userID: Int
+    public let englishName, arabicName, userLocationName: String
+    public  let userLocationMapLink: String
+    public let userEmail, userMobileNumber: String
+    public let latitude, longitude: Double
+    public let address: String
+    public let role: RoleEnum
+
+    enum CodingKeys: String, CodingKey {
+        case userID = "userId"
+        case englishName, arabicName, userLocationName, userLocationMapLink, userEmail, userMobileNumber, latitude, longitude, address, role
+    }
+}
+
+public enum RoleEnum: Int, Codable {
+    case Admin = 1
+    case SuperVisor
+    case WorkerManager
+    case Worker
+}
+
+
+// Convert object to JSON string
+func objectToJSONString<T: Encodable>(_ object: T) -> String? {
+    let encoder = JSONEncoder()
+    do {
+        let jsonData = try encoder.encode(object)
+        if let jsonString = String(data: jsonData, encoding: .utf8) {
+            return jsonString
+        }
+    } catch {
+        print("Error encoding object to JSON: \(error.localizedDescription)")
+    }
+    return nil
+}
+
+// Convert JSON string to object
+func jsonStringToObject<T: Decodable>(_ jsonString: String, type: T.Type) -> T? {
+    if let jsonData = jsonString.data(using: .utf8) {
+        let decoder = JSONDecoder()
+        do {
+            let object = try decoder.decode(type, from: jsonData)
+            return object
+        } catch {
+            print("Error decoding JSON string to object: \(error.localizedDescription)")
+        }
+    }
+    return nil
+}

@@ -8,38 +8,53 @@
 
 import SwiftUI
 
-struct FormData {
-    var title: String = ""
-    var description: String = ""
-    var note: String = ""
-    var location: String = ""
-    var pdfName: String = ""
-}
-
 struct FormView: View {
-    @State private var formData = FormData()
-    @State private var isShowingImagePicker = false
-    @State private var selectedImage: Image?
-    @State private var isShowingPDFPicker = false
-    @State private var selectedPDF: String = ""
+    @StateObject var viewModel: AddRequestViewModel
 
     var body: some View {
         NavigationView {
             Form {
+                Section(header: Text("Select Support Level")) {
+                    Picker("Support Level", selection: $viewModel.state.selectedSupportLevel) {
+                        ForEach(SupportEnums.SupportLevelEnum.allCases, id: \.self) { level in
+                            Text(level.description).tag(level)
+                        }
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                }
+
+                Section(header: Text("Select Support Type")) {
+                    Picker("Support Type", selection: $viewModel.state.selectedSupportType) {
+                        ForEach(SupportEnums.SupportTypeEnum.allCases, id: \.self) { type in
+                            Text(type.description).tag(type)
+                        }
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                }
+
+                Section(header: Text("Select Issue Type")) {
+                    Picker("Issue Type", selection: $viewModel.state.selectedIssueType) {
+                        ForEach(SupportEnums.IssueTypeEnum.allCases, id: \.self) { issueType in
+                            Text(issueType.description).tag(issueType)
+                        }
+                    }
+                    .pickerStyle(.automatic)
+                }
+                
                 Section(header: Text("Information")) {
-                    TextField("Title", text: $formData.title)
-                    TextField("Description", text: $formData.description)
+                    TextField("Title", text: $viewModel.state.formData.title)
+                    TextField("Description", text: $viewModel.state.formData.description)
                 }
 
                 Section(header: Text("Additional Details")) {
-                    TextField("Note", text: $formData.note)
-                    TextField("Location", text: $formData.location)
+                    TextField("Note", text: $viewModel.state.formData.note)
+                    TextField("Location", text: $viewModel.state.formData.location)
                 }
 
                 Section(header: Text("Uploads")) {
                     Button(action: {
                         // Action to select image
-                        isShowingImagePicker = true
+                        viewModel.state.isShowingImagePicker = true
                     }) {
                         HStack {
                             Image(systemName: "photo")
@@ -47,7 +62,7 @@ struct FormView: View {
                         }
                     }
 
-                    if let image = selectedImage {
+                    if let image = viewModel.state.selectedImage {
                         image
                             .resizable()
                             .aspectRatio(contentMode: .fit)
@@ -56,7 +71,7 @@ struct FormView: View {
 
                     Button(action: {
                         // Action to select PDF
-                        isShowingPDFPicker = true
+                        viewModel.state.isShowingPDFPicker = true
                     }) {
                         HStack {
                             Image(systemName: "doc.on.doc")
@@ -64,8 +79,8 @@ struct FormView: View {
                         }
                     }
 
-                    if !selectedPDF.isEmpty {
-                        Text("Selected PDF: \(selectedPDF)")
+                    if !viewModel.state.selectedPDF.isEmpty {
+                        Text("Selected PDF: \(viewModel.state.selectedPDF)")
                     }
                 }
                 Button(action: {
@@ -80,14 +95,13 @@ struct FormView: View {
                         .padding()
                 }
             }
-            .navigationTitle("Form Screen")
-            .sheet(isPresented: $isShowingImagePicker) {
-                ImagePicker(selectedImage: $selectedImage)
+            .sheet(isPresented: $viewModel.state.isShowingImagePicker) {
+                ImagePicker(selectedImage: $viewModel.state.selectedImage)
             }
-            .fileImporter(isPresented: $isShowingPDFPicker, allowedContentTypes: [.pdf]) { result in
+            .fileImporter(isPresented: $viewModel.state.isShowingPDFPicker, allowedContentTypes: [.pdf]) { result in
                 do {
                     let fileURL = try result.get()
-                    selectedPDF = fileURL.lastPathComponent
+                    viewModel.state.selectedPDF = fileURL.lastPathComponent
                 } catch {
                     print("Error selecting PDF file: \(error.localizedDescription)")
                 }
@@ -127,8 +141,3 @@ struct ImagePicker: UIViewControllerRepresentable {
     }
 }
 
-struct FormView_Previews: PreviewProvider {
-    static var previews: some View {
-        FormView()
-    }
-}

@@ -97,8 +97,7 @@ public class RootAppFlow: UIViewController {
 public struct RootAppFlowView: UIViewControllerRepresentable {
     
     public init() {
-        registerFonts()
-        UIView.appearance().semanticContentAttribute = .forceRightToLeft
+      
     }
     
     public func makeUIViewController(context: Context) -> RootAppFlow {

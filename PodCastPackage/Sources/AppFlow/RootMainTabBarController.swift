@@ -38,7 +38,7 @@ class RootMainTabBarController: UITabBarController {
     
     
     func setupViewControllers() {
-        let profileVC = UIHostingController(rootView: ProfileView())
+        let profileVC = UIHostingController(rootView: ProfileView(viewModel: .init(dependencies: self.dependencies)))
         let VC1 = setNavController(for: profileVC, title: "", image: UIImage(systemName: "ellipsis.circle")!, selectedImage: UIImage(systemName: "ellipsis.circle")!)
         
         viewControllers = [

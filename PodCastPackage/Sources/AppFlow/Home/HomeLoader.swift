@@ -20,98 +20,179 @@ public class HomeLoader {
         self.session = session
     }
 
-   public func loadPlayList() async throws -> PlayListResponse {
+   public func loadAdminRequestsList() async throws -> [RequestElement] {
         let request = URLRequest(
             method: .get,
-            path: "api/playlist/01GVD0TTY5RRMHH6YMCW7N1H70",
+            path: "api/v1/Admin",
             headers: [
                 .contentTypeJson,
-                .custom(key: "Authorization", value: "Bearer \(session.token ?? "")")
+                .custom(key: "user-id", value: "\(session.token ?? "")")
             ]
         )
-      let playListResponse = try await client.load(request, handle: .decoding(to: PlayListResponse.self))
-       return playListResponse
+      let listResponse = try await client.load(request, handle: .decoding(to: [RequestElement].self))
+       return listResponse
     }
     
+    public func loadSupervisorRequestsList() async throws -> [RequestElement] {
+         let request = URLRequest(
+             method: .get,
+             path: "api/v1/Supervisor",
+             headers: [
+                 .contentTypeJson,
+                 .custom(key: "user-id", value: "\(session.token ?? "")")
+             ]
+         )
+       let listResponse = try await client.load(request, handle: .decoding(to: [RequestElement].self))
+        return listResponse
+     }
+    
+    public func loadWorkerRequestsList() async throws -> [RequestElement] {
+         let request = URLRequest(
+             method: .get,
+             path: "api/v1/Worker",
+             headers: [
+                 .contentTypeJson,
+                 .custom(key: "user-id", value: "\(session.token ?? "")")
+             ]
+         )
+       let listResponse = try await client.load(request, handle: .decoding(to: [RequestElement].self))
+        return listResponse
+     }
+    
+    public func loadWorkerManagerRequestsList() async throws -> [RequestElement] {
+         let request = URLRequest(
+             method: .get,
+             path: "api/v1/WorkerManger",
+             headers: [
+                 .contentTypeJson,
+                 .custom(key: "user-id", value: "\(session.token ?? "")")
+             ]
+         )
+       let listResponse = try await client.load(request, handle: .decoding(to: [RequestElement].self))
+        return listResponse
+     }
 }
 
 
-// MARK: - PlayListResponse
-public struct PlayListResponse: Codable, Hashable {
-    let data: PlaylistData
-}
-
-// MARK: - PlaylistDataClass
-struct PlaylistData: Codable, Hashable {
-    let playlist: Playlist
-    let episodes: [Episode]
-}
-
-// MARK: - Episode
-struct Episode: Codable, Hashable {
-    let id: String
-    let itunesID: String?
-    let type: Int?
-    let name, description: String?
-    let image, imageBigger: URL?
-    let audioLink: URL?
-    let duration, durationInSeconds, views: Int?
-    let podcastItunesID, podcastName,createdAt: String?
-    let releaseDate: String?
-    let updatedAt: String?
-    let isDeleted: Bool?
-    let isEditorPick, sentNotification: Bool?
-    let position: Int?
+public struct RequestElement: Hashable, Codable {
+    let requestID, requestDetailsID: Int
+    let englishName, arabicName: String
+    let supportLevel: SupportEnums.SupportLevelEnum
+    let supportType: SupportEnums.SupportTypeEnum
+    let quantity: Int
+    let createdOn: String
 
     enum CodingKeys: String, CodingKey {
-        case id
-        case itunesID = "itunesId"
-        case type, name, description, image, imageBigger, audioLink, duration, durationInSeconds, views
-        case podcastItunesID = "podcastItunesId"
-        case podcastName, releaseDate, createdAt, updatedAt, isDeleted,   isEditorPick, sentNotification, position
-    }
-    
-    var releaseDateArabicString: String {
-        guard let releaseDate else {return ""}
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-        guard let date = formatter.date(from: releaseDate) else {return ""}
-        formatter.locale = Locale(identifier: "ar_DZ")
-        formatter.dateFormat = "EEEE, d, MMMM, yyyy HH:mm a"
-        let outputDate = formatter.string(from: date)
-        return outputDate
+        case requestID = "requestId"
+        case requestDetailsID = "requestDetailsId"
+        case englishName, arabicName, supportLevel, supportType, quantity, createdOn
     }
 }
 
-// MARK: - Playlist
-struct Playlist: Codable, Hashable {
-    let id: String?
-    let type: Int?
-    let name, description: String?
-    let image: URL?
-    let access, status: String?
-    let episodeCount, episodeTotalDuration: Int?
-    let createdAt, updatedAt: String?
-    let isDeleted: Bool?
-    let followingCount: Int?
-    let userID: String?
-    let isSubscribed: Bool?
-
-    enum CodingKeys: String, CodingKey {
-        case id, type, name, description, image, access, status, episodeCount, episodeTotalDuration, createdAt, updatedAt, isDeleted, followingCount
-        case userID = "userId"
-        case isSubscribed
-    }
-    
-    var episodeTotalDurationString: String {
-        if let episodeTotalDuration {
-            let TotalDuration = secondsToHoursMinutesSeconds(episodeTotalDuration)
-            return "\(TotalDuration.0) ساعات" + "\(TotalDuration.1) دقائق" + "\(TotalDuration.2) ثواني"
+public class SupportEnums
+{
+    public enum SupportLevelEnum: Int, Codable, CaseIterable
+    {
+        case Low = 1
+        case Medium
+        case High
+        case Critical
+        
+        public var description: String {
+            switch self {
+            case .Low: return "Low"
+            case .Medium: return "Medium"
+            case .High: return "High"
+            case .Critical: return "Critical"
+            }
         }
-        return ""
     }
     
-    func secondsToHoursMinutesSeconds(_ seconds: Int) -> (Int, Int, Int) {
-        return (seconds / 3600, (seconds % 3600) / 60, (seconds % 3600) % 60)
+    public enum RequestStatusEnum: Int, Codable, CaseIterable {
+        case PendingSupervisorAction = 1
+        case AssessmentAndGenerateOffer
+        case PendingOfferApproval
+        case WorkerManagerAssignmentation
+        case WorkerDeparted
+        case WorkerStartSolvingTheRequest
+        case IssueSolved
+        case VerifyOnSolvedIssueFromSupervisor
+        case IssueRejected
+        
+        var description: String {
+            switch self {
+            case .PendingSupervisorAction: return "PendingSupervisorAction"
+            case .AssessmentAndGenerateOffer: return "AssessmentAndGenerateOffer"
+            case .PendingOfferApproval: return "PendingOfferApproval"
+            case .WorkerManagerAssignmentation: return "WorkerManagerAssignmentation"
+            case .WorkerDeparted:
+                return "WorkerDeparted"
+            case .WorkerStartSolvingTheRequest:
+                return "WorkerStartSolvingTheRequest"
+            case .IssueSolved:
+                return "IssueSolved"
+            case .VerifyOnSolvedIssueFromSupervisor:
+                return "VerifyOnSolvedIssueFromSupervisor"
+            case .IssueRejected:
+                return "IssueRejected"
+            }
+        }
+     }
+    
+    public enum SupportTypeEnum: Int, Codable, CaseIterable
+    {
+        case Maintenance = 1
+        case Purchase
+        
+        var description: String
+        {
+            switch self
+            {
+            case .Maintenance: return "Maintenance"
+            case .Purchase: return "Purchase"
+            }
+        }
     }
+    
+    public enum IssueTypeEnum: Int, Codable, CaseIterable
+    {
+        case Type1 = 1, Type2, Type3, Type4, Type5, Type6, Type7, Type8, Type9, Type10, Type11
+        
+        var description: String
+        {
+            switch self
+            {
+            case .Type1: return "Type1"
+            case .Type2: return "Type2"
+            case .Type3: return "Type3"
+            case .Type4: return "Type4"
+            case .Type5: return "Type5"
+            case .Type6: return "Type6"
+            case .Type7: return "Type7"
+            case .Type8: return "Type8"
+            case .Type9: return "Type9"
+            case .Type10: return "Type10"
+            case .Type11: return "Type11"
+            }
+        }
+    }
+    
+    public enum RejectionReasonEnum: Int, Codable, CaseIterable 
+    {
+        case RejectionReason1 = 1, RejectionReason2, RejectionReason3, RejectionReason4, RejectionReason5, RejectionReason6
+        
+        var description: String
+        {
+            switch self {
+            case .RejectionReason1: return "RejectionReason1"
+            case .RejectionReason2: return "RejectionReason2"
+            case .RejectionReason3: return "RejectionReason3"
+            case .RejectionReason4: return "RejectionReason4"
+            case .RejectionReason5: return "RejectionReason5"
+            case .RejectionReason6: return "RejectionReason6"
+            }
+        }
+    }
+    
 }
+

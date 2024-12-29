@@ -6,8 +6,12 @@
 //
 
 import SwiftUI
+import NetworkHandling
 
 struct ProfileView: View {
+    
+    @StateObject var viewModel: ProfileViewModel
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -58,7 +62,7 @@ struct ProfileView: View {
                     }
 
                     Button(action: {
-                        // Action for logging out
+                        viewModel.dependencies.session.logout()
                     }) {
                         HStack {
                             Image(systemName: "arrowshape.turn.up.left")
@@ -89,8 +93,3 @@ struct SettingsView: View {
     }
 }
 
-struct ProfileView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProfileView()
-    }
-}

@@ -42,7 +42,7 @@ public class HomeFlowViewController: UINavigationController {
     
     func makeHomeScreenView() -> UIViewController {
         let viewModel = HomeViewModel(dependencies: dependencies)
-        let vc = UIHostingController(rootView: HomeListView(viewModel: viewModel))
+        let vc = UIHostingController(rootView: AdminHomeListView(viewModel: viewModel))
         return vc
     }
 }
