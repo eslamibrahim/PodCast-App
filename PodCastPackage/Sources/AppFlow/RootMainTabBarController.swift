@@ -10,6 +10,8 @@ import UIKit
 import NetworkHandling
 import SwiftUI
 
+
+@available(iOS 18.0, *)
 class RootMainTabBarController: UITabBarController {
     
     
@@ -46,7 +48,7 @@ class RootMainTabBarController: UITabBarController {
             VC1
         ]
     }
-    
+ 
     func makeHomeFlow() -> UIViewController {
         let playListFlow = HomeFlowViewController(dependencies: dependencies)
         playListFlow.tabBarItem.title = "الرئيسية"

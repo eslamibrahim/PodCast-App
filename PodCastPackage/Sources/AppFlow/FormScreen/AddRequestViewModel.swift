@@ -10,6 +10,9 @@ import Foundation
 import NetworkHandling
 import Combine
 import SwiftUICore
+import UIKit
+import SwiftUI
+import Alamofire
 
 class AddRequestViewModel: ObservableObject {
     
@@ -20,11 +23,26 @@ class AddRequestViewModel: ObservableObject {
         self.dependencies = dependencies
         self.addRequestLoader = .init(client: dependencies.client, session: dependencies.session)
     }
-    
-    @MainActor func addRequests() async {
+    @MainActor
+    func addRequests()  {
         state.state = .loading
         do {
-            state.state = .success
+            addRequestLoader.uploadRequest(imageDate: state.selectedImage?.data() ?? Data(), formDataDic: [
+                "EnglishName":state.formData.title,
+                "ArabicName":state.formData.title,
+                "SupportLevelId": "\(state.selectedSupportLevel.rawValue)",
+                "SupportTypeId": "\(state.selectedSupportType.rawValue)",
+                "IssueTypeId": "\(state.selectedIssueType.rawValue)",
+                "RequestComment": state.formData.note,
+                "Quantity" : "1"
+            ], completion: { result in
+                if result {
+                    self.state.state = .success
+                    self.state.isShowingAlert = true
+                } else {
+                    self.state.state = .error("")
+                }
+            })
         }
         catch {
             state.state = .error(error.localizedDescription)
@@ -44,8 +62,8 @@ class AddRequestViewModel: ObservableObject {
         
         var selectedSupportLevel: SupportEnums.SupportLevelEnum = .Low
         var selectedSupportType: SupportEnums.SupportTypeEnum = .Maintenance
-        var selectedIssueType: SupportEnums.IssueTypeEnum = .Type1
-        
+        var selectedIssueType: SupportEnums.IssueTypeEnum = .ACBreakdown
+        var isShowingAlert = false
 
         
         enum State: Hashable {
@@ -56,13 +74,52 @@ class AddRequestViewModel: ObservableObject {
         }
         
         struct FormData {
-            var title: String = ""
-            var description: String = ""
-            var note: String = ""
+            var title: String = "tetst"
+            var description: String = "tetst tetst tetst"
+            var note: String = "eslam"
             var location: String = ""
             var pdfName: String = ""
         }
         
     }
     
+}
+
+
+extension Image {
+    @MainActor
+    func data() -> Data? {
+        let coordinator = ImageCoordinator()
+        let uiImage = self.getUIImage(newSize: CGSize(width: 300, height: 300))
+        return coordinator.convertImageToData(uiImage)
+    }
+}
+
+class ImageCoordinator {
+    func convertImageToData(_ image: UIImage?) -> Data? {
+        guard let image = image else {
+            return nil
+        }
+        if let data = image.jpegData(compressionQuality: 0.1) {
+            print(data)
+            return data
+        }
+        return nil
+    }
+}
+
+
+extension Image {
+    @MainActor
+    func getUIImage(newSize: CGSize) -> UIImage? {
+        let image = resizable()
+            .scaledToFill()
+            .frame(width: newSize.width, height: newSize.height)
+            .clipped()
+        if #available(iOS 16.0, *) {
+            return ImageRenderer(content: image).uiImage
+        } else {
+            return nil
+        }
+    }
 }

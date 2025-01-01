@@ -10,6 +10,7 @@ import UIKit
 import NetworkHandling
 import SwiftUI
 
+@available(iOS 18.0, *)
 public class HomeFlowViewController: UINavigationController {
     
     let dependencies : SessionDependencies
@@ -37,12 +38,21 @@ public class HomeFlowViewController: UINavigationController {
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setNavigationBarHidden(true, animated: animated)
+    }
+    
+    public override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
     }
     
     func makeHomeScreenView() -> UIViewController {
         let viewModel = HomeViewModel(dependencies: dependencies)
-        let vc = UIHostingController(rootView: AdminHomeListView(viewModel: viewModel))
+        let vc = UIHostingController(rootView: AdminHomeListView(viewModel: viewModel, itemOnPressed: { idDetails, id in
+            let viewController = DetailsFlowViewController(dependencies: self.dependencies, id: id, idDetails: idDetails)
+            viewController.hidesBottomBarWhenPushed = true
+            self.pushViewController(viewController, animated: true)
+        }))
         return vc
     }
+    
+    
 }

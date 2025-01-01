@@ -30,7 +30,10 @@ class LoginViewModel: ObservableObject {
         }
     }
     
-    
+//    GaserAdmin    123456
+//    MohamedSupervisor    123456
+//    AboFahdWorkerManager    123456
+//    KhanWorker    123456
     struct Status: Hashable {
         
         var state: Status.State = .idle

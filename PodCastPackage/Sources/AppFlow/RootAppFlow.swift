@@ -13,6 +13,7 @@ import UI
 import Combine
 import Lottie
 
+@available(iOS 18.0, *)
 public class RootAppFlow: UIViewController {
     let dependencies: SessionDependencies
     lazy var loginVC = makeLoginScreen()
@@ -94,6 +95,7 @@ public class RootAppFlow: UIViewController {
     
 }
 
+@available(iOS 18.0, *)
 public struct RootAppFlowView: UIViewControllerRepresentable {
     
     public init() {

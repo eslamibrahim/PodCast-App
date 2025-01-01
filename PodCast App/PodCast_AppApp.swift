@@ -8,8 +8,8 @@
 import SwiftUI
 import AppFlow
 @main
+@available(iOS 18.0, *)
 struct PodCast_AppApp: App {
-
     var body: some Scene {
         WindowGroup {
             RootAppFlowView()

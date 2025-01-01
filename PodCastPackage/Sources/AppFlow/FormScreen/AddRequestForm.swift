@@ -12,7 +12,7 @@ struct FormView: View {
     @StateObject var viewModel: AddRequestViewModel
 
     var body: some View {
-        NavigationView {
+        ZStack {
             Form {
                 Section(header: Text("Select Support Level")) {
                     Picker("Support Level", selection: $viewModel.state.selectedSupportLevel) {
@@ -22,7 +22,7 @@ struct FormView: View {
                     }
                     .pickerStyle(SegmentedPickerStyle())
                 }
-
+                
                 Section(header: Text("Select Support Type")) {
                     Picker("Support Type", selection: $viewModel.state.selectedSupportType) {
                         ForEach(SupportEnums.SupportTypeEnum.allCases, id: \.self) { type in
@@ -31,7 +31,7 @@ struct FormView: View {
                     }
                     .pickerStyle(SegmentedPickerStyle())
                 }
-
+                
                 Section(header: Text("Select Issue Type")) {
                     Picker("Issue Type", selection: $viewModel.state.selectedIssueType) {
                         ForEach(SupportEnums.IssueTypeEnum.allCases, id: \.self) { issueType in
@@ -45,12 +45,11 @@ struct FormView: View {
                     TextField("Title", text: $viewModel.state.formData.title)
                     TextField("Description", text: $viewModel.state.formData.description)
                 }
-
+                
                 Section(header: Text("Additional Details")) {
                     TextField("Note", text: $viewModel.state.formData.note)
-                    TextField("Location", text: $viewModel.state.formData.location)
                 }
-
+                
                 Section(header: Text("Uploads")) {
                     Button(action: {
                         // Action to select image
@@ -61,7 +60,7 @@ struct FormView: View {
                             Text("Select Image")
                         }
                     }
-
+                    
                     if let image = viewModel.state.selectedImage {
                         image
                             .resizable()
@@ -69,22 +68,9 @@ struct FormView: View {
                             .frame(maxHeight: 200)
                     }
 
-                    Button(action: {
-                        // Action to select PDF
-                        viewModel.state.isShowingPDFPicker = true
-                    }) {
-                        HStack {
-                            Image(systemName: "doc.on.doc")
-                            Text("Upload PDF")
-                        }
-                    }
-
-                    if !viewModel.state.selectedPDF.isEmpty {
-                        Text("Selected PDF: \(viewModel.state.selectedPDF)")
-                    }
                 }
                 Button(action: {
-                   
+                    viewModel.addRequests()
                 }) {
                     Text("Submit")
                         .padding()
@@ -106,7 +92,20 @@ struct FormView: View {
                     print("Error selecting PDF file: \(error.localizedDescription)")
                 }
             }
+            
+            if case .loading = viewModel.state.state  {
+                ProgressView()
+            } 
         }
+        .alert(isPresented: $viewModel.state.isShowingAlert) {
+            Alert(title: Text("Done"),
+                  message: Text("Request submited successfully"),
+                  primaryButton: .default(Text("OK"), action: {
+                      self.viewModel.state.isShowingAlert = false
+                  }),
+                  secondaryButton: .cancel(Text("Cancel")))
+        }
+        
     }
 }
 

@@ -7,13 +7,14 @@
 
 import Foundation
 import NetworkHandling
+import Alamofire
 
 public class DetailsLoader {
     
     private let client: Client
-    private let session: Session
+    private let session: NetworkHandling.Session
     
-    public init(client: Client, session: Session) {
+    public init(client: Client, session: NetworkHandling.Session) {
         self.client = client
         self.session = session
     }
@@ -70,6 +71,154 @@ public class DetailsLoader {
         return response
      }
     
+    func postsupervisorActionOnAdmin(body: RequestDetailsActions) async throws {
+         let request = URLRequest(
+            method: .post,
+             path: "api/v1/Supervisor/supervisor-action-on-admin",
+             body: .encode(body),
+             headers: [
+                 .contentTypeJson,
+                 .custom(key: "user-id", value: "\(session.token ?? "")")
+             ]
+         )
+        let ـ = try await client.load(request)
+        return
+     }
+    
+    func postsupervisorActionOnWorkerManager(body: RequestDetailsActions) async throws {
+         let request = URLRequest(
+            method: .post,
+             path: "api/v1/Supervisor/supervisor-action-on-worker-manager",
+             body: .encode(body),
+             headers: [
+                 .contentTypeJson,
+                 .custom(key: "user-id", value: "\(session.token ?? "")")
+             ]
+         )
+        let ـ = try await client.load(request)
+        return
+     }
+    
+    func postSupervisorActionOnWorker(body: RequestDetailsActions) async throws {
+         let request = URLRequest(
+            method: .post,
+             path: "api/v1/Supervisor/supervisor-action-on-worker",
+             body: .encode(body),
+             headers: [
+                 .contentTypeJson,
+                 .custom(key: "user-id", value: "\(session.token ?? "")")
+             ]
+         )
+        let ـ = try await client.load(request)
+        return
+     }
+    
+    func postApiWorkermanagerActionOnSupervisor(fileURLWithPath: URL?, body: [String: Any], completion: @escaping (Bool) -> Void) async throws {
+        
+        AF.upload(
+            multipartFormData: { multipartFormData in
+                for (key, value) in body {
+                    if let temp = value as? String {
+                        print(temp, key )
+                        multipartFormData.append(temp.data(using: .utf8)!, withName: key)
+                    }
+                    if let temp = value as? Bool {
+                        print(temp, key )
+                        multipartFormData.append("\(temp)".data(using: .utf8)!, withName: key)
+                    }
+                    if let temp = value as? Int {
+                        print(temp, key )
+                        multipartFormData.append("\(temp)".data(using: .utf8)!, withName: key)
+                    }
+                }
+                if let fileURLWithPath {
+                        print(fileURLWithPath.path)
+                    let pdfData = try! Data(contentsOf: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf".asURL())
+                    let data: Data = pdfData
+                        multipartFormData.append(data , withName: "UploadedPDF", fileName: "pdf\(Date()).pdf", mimeType:"application/pdf")
+                }
+            },
+            to: URL(string: "https://bassemwwe9-001-site1.otempurl.com/api/v1/WorkerManger/worker-manager-action-on-supervisor")!, method: .post,
+            headers: ["user-id":"\(session.token ?? "")"])
+        .validate(statusCode: 200..<300)
+        .response { resp in
+            switch resp.result{
+            case .failure(let error):
+                completion(false)
+                print(error)
+            case.success( _):
+                completion(true)
+                print("🥶🥶Response after upload Img: (resp.result)")
+            }
+        }
+     }
+    func uploadWorkerStartedSolvingIssueRequest(imageDate: Data, formDataDic: [String: String], completion: @escaping (Bool) -> Void) {
+        let parameterS = formDataDic
+        AF.upload(
+            multipartFormData: { multipartFormData in
+                for (key, value) in parameterS {
+                        multipartFormData.append(value.data(using: .utf8)!, withName: key)
+                }
+                multipartFormData.append(imageDate, withName: "UploadedImg" , fileName: "file.jpeg", mimeType: "image/jpeg")
+            },
+            to: URL(string: "https://bassemwwe9-001-site1.otempurl.com/api/v1/Worker/worker-solving-issue")!, method: .post,
+            headers: ["user-id":"\(session.token ?? "")"])
+        .validate(statusCode: 200..<300)
+        .response { resp in
+            
+            switch resp.result{
+            case .failure(let error):
+                print(error)
+                completion(false)
+            case.success( _):
+                completion(true)
+                print("🥶🥶Response after upload Img: (resp.result)")
+            }
+        }
+    }
+    
+    func uploadWorkerIssueSolvedRequest(imageDate: Data, formDataDic: [String: String], completion: @escaping (Bool) -> Void) {
+        let parameterS = formDataDic
+        AF.upload(
+            multipartFormData: { multipartFormData in
+                for (key, value) in parameterS {
+                        multipartFormData.append(value.data(using: .utf8)!, withName: key)
+                }
+                multipartFormData.append(imageDate, withName: "UploadedImg" , fileName: "file.jpeg", mimeType: "image/jpeg")
+            },
+            to: URL(string: "https://bassemwwe9-001-site1.otempurl.com/api/v1/Worker/issue-solved")!, method: .post,
+            headers: ["user-id":"\(session.token ?? "")"])
+        .validate(statusCode: 200..<300)
+        .response { resp in
+            
+            switch resp.result{
+            case .failure(let error):
+                print(error)
+                completion(false)
+            case.success( _):
+                completion(true)
+                print("🥶🥶Response after upload Img: (resp.result)")
+            }
+        }
+    }
+    
+   
+    
+    
+    func postaWorkerMangerAssignWorker(body: RequestDetailsActions) async throws {
+         let request = URLRequest(
+            method: .post,
+             path: "api/v1/WorkerManger/assign-worker",
+             body: .encode(body),
+             headers: [
+                 .contentTypeJson,
+                 .custom(key: "user-id", value: "\(session.token ?? "")")
+             ]
+         )
+        let ـ =  try await client.load(request)
+        return
+     }
+    
 }
 
 
@@ -81,10 +230,25 @@ public struct RequestDetails:Hashable, Codable {
     var supportLevel: SupportEnums.SupportLevelEnum
     var supportType: SupportEnums.SupportTypeEnum
     var issueType: SupportEnums.IssueTypeEnum
-    var requestComment: String
-    var imageUpload: String
+    var requestComment: String?
+    var imageUpload: String?
     var requestStatus: SupportEnums.RequestStatusEnum
     var quantity: Int
     var pdfUpload :String?
     var offerAmount :Double?
+}
+
+
+struct RequestDetailsActions: Codable {
+    let requestID: String
+    let isAccepted: Bool
+    let acceptanceComment: String
+    let rejectionReason: SupportEnums.RejectionReasonEnum?
+    let rejectionComment: String?
+    let quantity: Int
+    let offerAmount: Double?
+    enum CodingKeys: String, CodingKey {
+        case requestID = "requestId"
+        case isAccepted, acceptanceComment, rejectionReason, rejectionComment, quantity, offerAmount
+    }
 }

@@ -30,9 +30,9 @@ class HomeViewModel: ObservableObject {
                 case .SuperVisor:
                     list = try await homeLoader.loadSupervisorRequestsList()
                 case .WorkerManager:
-                    list = try await homeLoader.loadAdminRequestsList()
+                    list = try await homeLoader.loadWorkerManagerRequestsList()
                 case .Worker:
-                    list = try await homeLoader.loadAdminRequestsList()
+                    list = try await homeLoader.loadWorkerRequestsList()
                 }
             }
             state.state = .success(list)

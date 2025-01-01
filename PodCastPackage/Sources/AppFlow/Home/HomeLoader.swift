@@ -115,8 +115,8 @@ public class SupportEnums
         case WorkerManagerAssignmentation
         case WorkerDeparted
         case WorkerStartSolvingTheRequest
-        case IssueSolved
         case VerifyOnSolvedIssueFromSupervisor
+        case IssueSolved
         case IssueRejected
         
         var description: String {
@@ -156,23 +156,32 @@ public class SupportEnums
     
     public enum IssueTypeEnum: Int, Codable, CaseIterable
     {
-        case Type1 = 1, Type2, Type3, Type4, Type5, Type6, Type7, Type8, Type9, Type10, Type11
+//        case Type1 = 1, Type2, Type3, Type4, Type5, Type6, Type7, Type8, Type9, Type10, Type11
+        case ACBreakdown = 1, PlumbingAccessoriesBreakdown, ExhaustFanBreakdown,
+        ACSwitchBreakdown,
+        WaterDynamoBreakdown,
+        WashingMachineBreakdown,
+        TubeLightBreakdown,
+        FloatSystemBreakdown,
+        WashingMachineAccessoriesBreakdown,
+        MainElectricBreakerBreakdown
         
         var description: String
         {
             switch self
             {
-            case .Type1: return "Type1"
-            case .Type2: return "Type2"
-            case .Type3: return "Type3"
-            case .Type4: return "Type4"
-            case .Type5: return "Type5"
-            case .Type6: return "Type6"
-            case .Type7: return "Type7"
-            case .Type8: return "Type8"
-            case .Type9: return "Type9"
-            case .Type10: return "Type10"
-            case .Type11: return "Type11"
+            case .ACBreakdown: return "ACBreakdown"
+            case .PlumbingAccessoriesBreakdown: return "PlumbingAccessoriesBreakdown"
+            case .ACSwitchBreakdown: return "ACSwitchBreakdown"
+            case .WaterDynamoBreakdown: return "WaterDynamoBreakdown"
+            case .TubeLightBreakdown: return "TubeLightBreakdown"
+            case .FloatSystemBreakdown: return "FloatSystemBreakdown"
+            case .WashingMachineAccessoriesBreakdown: return "WashingMachineAccessoriesBreakdown"
+            case .MainElectricBreakerBreakdown: return "MainElectricBreakerBreakdown"
+            case .ExhaustFanBreakdown:
+                return "ExhaustFanBreakdown"
+            case .WashingMachineBreakdown:
+                return "WashingMachineBreakdown"
             }
         }
     }
