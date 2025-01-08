@@ -34,7 +34,7 @@ class AddRequestViewModel: ObservableObject {
                 "SupportTypeId": "\(state.selectedSupportType.rawValue)",
                 "IssueTypeId": "\(state.selectedIssueType.rawValue)",
                 "RequestComment": state.formData.note,
-                "Quantity" : "1"
+                "Quantity" : "\(state.formData.quantity)"
             ], completion: { result in
                 if result {
                     self.state.state = .success
@@ -79,6 +79,7 @@ class AddRequestViewModel: ObservableObject {
             var note: String = "eslam"
             var location: String = ""
             var pdfName: String = ""
+            var quantity: Int = 1
         }
         
     }

@@ -34,7 +34,7 @@ struct RequestDetailsView: View {
                 }
                 Section {
                     VStack(alignment: .leading) {
-                        if viewModel.dependencies.session.user?.role != .Admin && requestDetails.requestStatus != .IssueRejected {
+                        if  requestDetails.requestStatus != .IssueRejected {
                             Button(action: {
                                 isShowingPopup.toggle()
                             }) {
@@ -91,7 +91,13 @@ struct RequestDetailsView: View {
                             .font(.headline)
                             .padding(.bottom, 5)
                         
-                        Text("Quantity: \(requestDetails.quantity)")
+                        if let acceptanceComment = requestDetails.acceptanceComment {
+                            Text("Acceptance Comment: \(acceptanceComment)")
+                                .font(.headline)
+                                .padding(.bottom, 5)
+                        }
+
+                        Text("Quantity: \(requestDetails.quantity ?? 0)")
                             .font(.headline)
                             .padding(.bottom, 5)
                     }
@@ -107,7 +113,19 @@ struct RequestDetailsView: View {
                         if let imageUpload = requestDetails.imageUpload, let imageURL = URL(string: imageUpload) {
                             NavigationLink(destination: ZoomableImageView(imageURL: imageURL)) {
                                 FillImage(imageURL)
-                                    .frame(width: 200, height: 200)
+                                    .frame(width: 300, height: 300)
+                                    .cornerRadius(10)
+                                    .shadow(radius: 5)
+                                    .padding(.horizontal)
+                            }
+                        }
+                    }
+                    
+                    Section {
+                        if let imageUpload = requestDetails.imageUploadAfterFix, let imageURL = URL(string: imageUpload) {
+                            NavigationLink(destination: ZoomableImageView(imageURL: imageURL)) {
+                                FillImage(imageURL)
+                                    .frame(width: 300, height: 300)
                                     .cornerRadius(10)
                                     .shadow(radius: 5)
                                     .padding(.horizontal)
@@ -126,12 +144,23 @@ struct RequestDetailsView: View {
                         }
                     }
 
-                    
+                    Section {
+                        if let pdfUpload = requestDetails.pdfUploadInvoice,
+                           let pdfURL = URL(string: pdfUpload) {
+                            NavigationLink {
+                                PDFViewer(url: pdfURL)
+                            } label: {
+                                Text("View Invoice PDF")
+                            }
+                        }
+                    }
+
                 }
             }
             .overlay(isShowingPopup ?
                      PopupView(title: viewModel.state.actionTitle,
-                               requestStatus: requestDetails.requestStatus, actionState: $viewModel.state.actionState, isAccepted: $viewModel.state.ActionForm.isAccepted, acceptanceComment: $viewModel.state.ActionForm.acceptanceComment, rejectionReason: $viewModel.state.ActionForm.rejectionReason, rejectionComment: $viewModel.state.ActionForm.rejectionComment, quantity: $viewModel.state.ActionForm.quantity, selectedPDF: $viewModel.state.ActionForm.selectedPDF, isShowingPopup: $isShowingPopup,
+                               requestStatus: requestDetails.requestStatus, actionState: $viewModel.state.actionState, isAccepted: $viewModel.state.ActionForm.isAccepted, acceptanceComment: $viewModel.state.ActionForm.acceptanceComment, rejectionReason: $viewModel.state.ActionForm.rejectionReason,
+                               requestDuration: $viewModel.state.ActionForm.requestDuration, rejectionComment: $viewModel.state.ActionForm.rejectionComment, selectedPDF: $viewModel.state.ActionForm.selectedPDF, isShowingPopup: $isShowingPopup,
                                offerAmount: $viewModel.state.ActionForm.offerAmount, selectedImage: $viewModel.state.ActionForm.selectedImage, onYesAction: {
                 viewModel.HandleActionRequestState()
             })
@@ -215,8 +244,8 @@ struct PopupView: View {
     @Binding var isAccepted: Bool
     @Binding var acceptanceComment: String
     @Binding var rejectionReason: SupportEnums.RejectionReasonEnum?
+    @Binding var requestDuration: RequestDurationEnum?
     @Binding var rejectionComment: String
-    @Binding var quantity: Int
     @Binding var selectedPDF: URL?
     @Binding var isShowingPopup: Bool
     @Binding var offerAmount: String
@@ -245,8 +274,17 @@ struct PopupView: View {
                         TextField("Acceptance Comment", text: $acceptanceComment)
                         if requestStatus == .AssessmentAndGenerateOffer {
                             TextField("Offer Amont", text: $offerAmount)
+                            
+                            Section(header: Text("Request Duration")) {
+                                Picker("Request Duration", selection: $requestDuration) {
+                                    ForEach(RequestDurationEnum.allCases, id: \.self) { type in
+                                        Text(type.title).tag(type)
+                                    }
+                                }
+                                .pickerStyle(.automatic)
+                            }
                         }
-                        if requestStatus != .WorkerDeparted || requestStatus != .WorkerStartSolvingTheRequest
+                        if requestStatus == .PendingSupervisorAction 
                         {
                             Section(header: Text("Select Rejection Reason Type")) {
                                 Picker("Rejection Reason", selection: $rejectionReason) {
@@ -257,11 +295,8 @@ struct PopupView: View {
                                 .pickerStyle(.automatic)
                             }
                             TextField("Rejection Comment", text: $rejectionComment)
-                            Stepper(value: $quantity, in: 0...Int.max) {
-                                Text("Quantity: \(quantity)")
-                            }
                         }
-                        if requestStatus == .AssessmentAndGenerateOffer {
+                        if requestStatus == .AssessmentAndGenerateOffer || requestStatus == .IssueSolved  {
                             Button(action: {
                                 isShowingPDFPicker = true
                             }) {

@@ -102,7 +102,7 @@ public class DetailsLoader {
     func postSupervisorActionOnWorker(body: RequestDetailsActions) async throws {
          let request = URLRequest(
             method: .post,
-             path: "api/v1/Supervisor/supervisor-action-on-worker",
+             path: "api/v1/Admin/admin-action-on-worker",
              body: .encode(body),
              headers: [
                  .contentTypeJson,
@@ -112,6 +112,22 @@ public class DetailsLoader {
         let ـ = try await client.load(request)
         return
      }
+    
+    func postSupervisorActionOnWorkerManagerInvoiceAccepted(body: RequestDetailsActions) async throws {
+         let request = URLRequest(
+            method: .post,
+             path: "api/v1/Supervisor/supervisor-action-on-worker-manager-invoice-accepted",
+             body: .encode(body),
+             headers: [
+                 .contentTypeJson,
+                 .custom(key: "user-id", value: "\(session.token ?? "")")
+             ]
+         )
+        let ـ = try await client.load(request)
+        return
+     }
+    
+    
     
     func postApiWorkermanagerActionOnSupervisor(fileURLWithPath: URL?, body: [String: Any], completion: @escaping (Bool) -> Void) async throws {
         
@@ -152,6 +168,49 @@ public class DetailsLoader {
             }
         }
      }
+    
+    
+    func postApiWorkerManagerActionOnSupervisorUploadInvoice(fileURLWithPath: URL?, body: [String: Any], completion: @escaping (Bool) -> Void) async throws {
+        
+        AF.upload(
+            multipartFormData: { multipartFormData in
+                for (key, value) in body {
+                    if let temp = value as? String {
+                        print(temp, key )
+                        multipartFormData.append(temp.data(using: .utf8)!, withName: key)
+                    }
+                    if let temp = value as? Bool {
+                        print(temp, key )
+                        multipartFormData.append("\(temp)".data(using: .utf8)!, withName: key)
+                    }
+                    if let temp = value as? Int {
+                        print(temp, key )
+                        multipartFormData.append("\(temp)".data(using: .utf8)!, withName: key)
+                    }
+                }
+                if let fileURLWithPath {
+                        print(fileURLWithPath.path)
+                    let pdfData = try! Data(contentsOf: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf".asURL())
+                    let data: Data = pdfData
+                        multipartFormData.append(data , withName: "UploadedPDF", fileName: "pdf\(Date()).pdf", mimeType:"application/pdf")
+                }
+            },
+            to: URL(string: "https://bassemwwe9-001-site1.otempurl.com/api/v1/WorkerManger/worker-manager-action-on-supervisor-upload-invoice")!, method: .post,
+            headers: ["user-id":"\(session.token ?? "")"])
+        .validate(statusCode: 200..<300)
+        .response { resp in
+            switch resp.result{
+            case .failure(let error):
+                completion(false)
+                print(error)
+            case.success( _):
+                completion(true)
+                print("🥶🥶Response after upload Img: (resp.result)")
+            }
+        }
+     }
+    
+    
     func uploadWorkerStartedSolvingIssueRequest(imageDate: Data, formDataDic: [String: String], completion: @escaping (Bool) -> Void) {
         let parameterS = formDataDic
         AF.upload(
@@ -222,20 +281,34 @@ public class DetailsLoader {
 }
 
 
-public struct RequestDetails:Hashable, Codable {
-    var requestDetailsId: Int
+public struct RequestDetails: Hashable, Codable {
     var requestId: Int
+    var requestDetailsId: Int
     var englishName: String
-    var arabicName: String
+    var arabicName: String?
     var supportLevel: SupportEnums.SupportLevelEnum
     var supportType: SupportEnums.SupportTypeEnum
     var issueType: SupportEnums.IssueTypeEnum
     var requestComment: String?
     var imageUpload: String?
+    var imageUploadAfterFix: String?
     var requestStatus: SupportEnums.RequestStatusEnum
-    var quantity: Int
-    var pdfUpload :String?
-    var offerAmount :Double?
+    var pdfUpload: String?
+    var pdfUploadInvoice: String?
+    var offerAmount: Int?
+    var quantity: Int?
+    var acceptanceComment: String?
+    var requestDuration: String?
+    var requesterInformation: RequesterInformation?
+}
+
+
+public struct RequesterInformation: Hashable, Codable {
+    var englishName: String
+    var userLocationName: String
+    var userLocationMapLink: String
+    var address: String?
+    var userMobileNumber: String?
 }
 
 
@@ -247,8 +320,12 @@ struct RequestDetailsActions: Codable {
     let rejectionComment: String?
     let quantity: Int
     let offerAmount: Double?
+    let RequestDuration: Int?
+
     enum CodingKeys: String, CodingKey {
         case requestID = "requestId"
-        case isAccepted, acceptanceComment, rejectionReason, rejectionComment, quantity, offerAmount
+        case isAccepted, acceptanceComment, rejectionReason, rejectionComment, quantity, offerAmount, RequestDuration
     }
 }
+
+

@@ -46,6 +46,10 @@ struct FormView: View {
                     TextField("Description", text: $viewModel.state.formData.description)
                 }
                 
+                Stepper(value: $viewModel.state.formData.quantity, in: 1...Int.max) {
+                    Text("Quantity: \(viewModel.state.formData.quantity)")
+                }
+                
                 Section(header: Text("Additional Details")) {
                     TextField("Note", text: $viewModel.state.formData.note)
                 }

@@ -64,7 +64,8 @@ class DetailsViewModel: ObservableObject {
                     rejectionReason: state.ActionForm.rejectionReason,
                     rejectionComment: state.ActionForm.rejectionComment,
                     quantity: 1,
-                    offerAmount: nil)
+                    offerAmount: nil,
+                    RequestDuration: nil)
             )
             state.actionState = .success
         }
@@ -85,7 +86,8 @@ class DetailsViewModel: ObservableObject {
                     rejectionReason: state.ActionForm.rejectionReason,
                     rejectionComment: state.ActionForm.rejectionComment,
                     quantity: 1,
-                    offerAmount: nil)
+                    offerAmount: nil,
+                    RequestDuration: nil)
             )
             state.actionState = .success
         }
@@ -106,7 +108,8 @@ class DetailsViewModel: ObservableObject {
                     rejectionReason: state.ActionForm.rejectionReason,
                     rejectionComment: state.ActionForm.rejectionComment,
                     quantity: 1,
-                    offerAmount: nil)
+                    offerAmount: nil,
+                    RequestDuration: nil)
             )
             state.actionState = .success
         }
@@ -127,7 +130,30 @@ class DetailsViewModel: ObservableObject {
                     rejectionReason: state.ActionForm.rejectionReason,
                     rejectionComment: state.ActionForm.rejectionComment,
                     quantity: 1,
-                    offerAmount: nil)
+                    offerAmount: nil,
+                    RequestDuration: nil)
+            )
+            state.actionState = .success
+        }
+        catch {
+            state.actionState = .error(error.localizedDescription)
+            dependencies.session.logout()
+        }
+    }
+    
+    @MainActor func postSupervisorActionOnWorkerManagerInvoiceAccepted() async {
+        state.actionState = .loading
+        do {
+            let _ = try await detailsLoader.postSupervisorActionOnWorkerManagerInvoiceAccepted(
+                body: .init(
+                    requestID: "\(id)",
+                    isAccepted: state.ActionForm.isAccepted,
+                    acceptanceComment: state.ActionForm.acceptanceComment,
+                    rejectionReason: state.ActionForm.rejectionReason,
+                    rejectionComment: state.ActionForm.rejectionComment,
+                    quantity: 1,
+                    offerAmount: nil,
+                    RequestDuration: nil)
             )
             state.actionState = .success
         }
@@ -146,8 +172,9 @@ class DetailsViewModel: ObservableObject {
                     "IsAccepted": state.ActionForm.isAccepted ,
                     "AcceptanceComment": state.ActionForm.acceptanceComment,
                     "RejectionReason": state.ActionForm.rejectionReason?.rawValue,
-                    "RejectionComment":state.ActionForm.rejectionComment.isEmpty ? nil : state.ActionForm.rejectionComment,
+                    "RejectionComment": state.ActionForm.rejectionComment.isEmpty ? nil : state.ActionForm.rejectionComment,
                     "OfferAmount": state.ActionForm.offerAmount,
+                    "RequestDuration": state.ActionForm.requestDuration?.rawValue
                 ], completion: { result in
                     if result {
                         self.state.actionState = .success
@@ -163,6 +190,33 @@ class DetailsViewModel: ObservableObject {
         }
     }
     
+    @MainActor func postApiWorkerManagerActionOnSupervisorUploadInvoice() async {
+        state.actionState = .loading
+        do {
+            let _ = try await detailsLoader.postApiWorkerManagerActionOnSupervisorUploadInvoice(fileURLWithPath: state.ActionForm.selectedPDF,
+                body: [
+                    "RequestId": id,
+                    "IsAccepted": state.ActionForm.isAccepted ,
+                    "AcceptanceComment": state.ActionForm.acceptanceComment,
+                    "RejectionReason": state.ActionForm.rejectionReason?.rawValue,
+                    "RejectionComment": state.ActionForm.rejectionComment.isEmpty ? nil : state.ActionForm.rejectionComment,
+                    "OfferAmount": state.ActionForm.offerAmount,
+                    "RequestDuration": state.ActionForm.requestDuration?.rawValue
+                ], completion: { result in
+                    if result {
+                        self.state.actionState = .success
+                    } else {
+                        self.state.actionState = .error("")
+                    }
+                }
+            )
+        }
+        catch {
+            state.actionState = .error(error.localizedDescription)
+            dependencies.session.logout()
+        }
+    }
+
     func uploadWorkerStartedSolvingIssueRequest() async {
         state.actionState = .loading
         do {
@@ -221,11 +275,14 @@ class DetailsViewModel: ObservableObject {
             case .WorkerStartSolvingTheRequest:
                 Task { await uploadWorkerIssueSolvedRequest()}
             case .IssueSolved:
-                break
-            case .VerifyOnSolvedIssueFromSupervisor:
+                Task {await postApiWorkerManagerActionOnSupervisorUploadInvoice()}
+            case .VerifyOnSolvedIssueFromAdmin:
                 Task { await postSupervisorActionOnWorker()}
-
             case .IssueRejected:
+                break
+            case .UploadInvoice:
+                Task { await  postSupervisorActionOnWorkerManagerInvoiceAccepted() }
+            case .InvoiceAccepted:
                 break
             }
         }
@@ -278,10 +335,14 @@ class DetailsViewModel: ObservableObject {
                     return "WorkerStartSolvingTheRequest"
                 case .IssueSolved:
                     return "IssueSolved"
-                case .VerifyOnSolvedIssueFromSupervisor:
-                    return "VerifyOnSolvedIssueFromSupervisor"
+                case .VerifyOnSolvedIssueFromAdmin:
+                    return "VerifyOnSolvedIssueFromAdmin"
                 case .IssueRejected:
                     return "IssueRejected"
+                case .UploadInvoice:
+                    return "UploadInvoice"
+                case .InvoiceAccepted:
+                    return "InvoiceAccepted"
                 }
             } else {
                 return "PendingSupervisorAction"
@@ -299,8 +360,26 @@ class DetailsViewModel: ObservableObject {
             var offerAmount: String = ""
             var selectedPDF: URL? = nil
             var selectedImage: Image? = nil
+            var requestDuration: RequestDurationEnum? = .FromDayTo3Days
         }
 
+    }
+    
+}
+
+
+
+enum RequestDurationEnum: Int, Codable , CaseIterable {
+    
+    case FromDayTo3Days = 1, From3To5Days, MoreThan5Days
+    
+    var title: String {
+        switch self
+        {
+        case .FromDayTo3Days: return "From Day To 3 Days"
+        case .From3To5Days: return "From 3 To 5 Days"
+        case .MoreThan5Days: return "More Than 5 Days"
+        }
     }
     
 }

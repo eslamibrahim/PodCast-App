@@ -109,16 +109,9 @@ public class SupportEnums
     }
     
     public enum RequestStatusEnum: Int, Codable, CaseIterable {
-        case PendingSupervisorAction = 1
-        case AssessmentAndGenerateOffer
-        case PendingOfferApproval
-        case WorkerManagerAssignmentation
-        case WorkerDeparted
-        case WorkerStartSolvingTheRequest
-        case VerifyOnSolvedIssueFromSupervisor
-        case IssueSolved
-        case IssueRejected
-        
+        case PendingSupervisorAction = 1 , AssessmentAndGenerateOffer, PendingOfferApproval , WorkerManagerAssignmentation, WorkerDeparted, WorkerStartSolvingTheRequest,
+           VerifyOnSolvedIssueFromAdmin, IssueSolved, UploadInvoice, InvoiceAccepted ,IssueRejected
+
         var description: String {
             switch self {
             case .PendingSupervisorAction: return "PendingSupervisorAction"
@@ -131,10 +124,14 @@ public class SupportEnums
                 return "WorkerStartSolvingTheRequest"
             case .IssueSolved:
                 return "IssueSolved"
-            case .VerifyOnSolvedIssueFromSupervisor:
+            case .VerifyOnSolvedIssueFromAdmin:
                 return "VerifyOnSolvedIssueFromSupervisor"
             case .IssueRejected:
                 return "IssueRejected"
+            case .UploadInvoice:
+                return "UploadInvoice"
+            case .InvoiceAccepted:
+                return "InvoiceAccepted"
             }
         }
      }
@@ -156,7 +153,6 @@ public class SupportEnums
     
     public enum IssueTypeEnum: Int, Codable, CaseIterable
     {
-//        case Type1 = 1, Type2, Type3, Type4, Type5, Type6, Type7, Type8, Type9, Type10, Type11
         case ACBreakdown = 1, PlumbingAccessoriesBreakdown, ExhaustFanBreakdown,
         ACSwitchBreakdown,
         WaterDynamoBreakdown,
@@ -204,4 +200,5 @@ public class SupportEnums
     }
     
 }
+
 
