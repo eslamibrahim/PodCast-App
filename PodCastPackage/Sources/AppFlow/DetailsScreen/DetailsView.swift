@@ -26,7 +26,7 @@ struct RequestDetailsView: View {
                         Text("Title: ")
                             .font(.subheadline)
                             .bold()
-                        Text("\(requestDetails.englishName)")
+                        Text("\(requestDetails.requestId) - " + " \(requestDetails.englishName)")
                             .font(.headline)
                             .foregroundColor(.red)
                             .bold()
@@ -35,6 +35,7 @@ struct RequestDetailsView: View {
                 Section {
                     VStack(alignment: .leading) {
                         if  requestDetails.requestStatus != .IssueRejected {
+                           
                             Button(action: {
                                 isShowingPopup.toggle()
                             }) {
@@ -61,6 +62,7 @@ struct RequestDetailsView: View {
                     }
                     Section {
                         if let offerAmount = requestDetails.offerAmount,
+                           offerAmount > 0 ,
                             requestDetails.requestStatus == .PendingOfferApproval {
                             HStack {
                                 Text("Offer Amount: ")
@@ -139,7 +141,7 @@ struct RequestDetailsView: View {
                             NavigationLink {
                                 PDFViewer(url: pdfURL)
                             } label: {
-                                Text("View PDF")
+                                Text("View Offer PDF")
                             }
                         }
                     }
@@ -159,7 +161,8 @@ struct RequestDetailsView: View {
             }
             .overlay(isShowingPopup ?
                      PopupView(title: viewModel.state.actionTitle,
-                               requestStatus: requestDetails.requestStatus, actionState: $viewModel.state.actionState, isAccepted: $viewModel.state.ActionForm.isAccepted, acceptanceComment: $viewModel.state.ActionForm.acceptanceComment, rejectionReason: $viewModel.state.ActionForm.rejectionReason,
+                               requestStatus: requestDetails.requestStatus, actionState: $viewModel.state.actionState, isAccepted: $viewModel.state.ActionForm.isAccepted, acceptanceComment: $viewModel.state.ActionForm.acceptanceComment, RequestComment: $viewModel.state.ActionForm.requestComment,
+                               rejectionReason: $viewModel.state.ActionForm.rejectionReason,
                                requestDuration: $viewModel.state.ActionForm.requestDuration, rejectionComment: $viewModel.state.ActionForm.rejectionComment, selectedPDF: $viewModel.state.ActionForm.selectedPDF, isShowingPopup: $isShowingPopup,
                                offerAmount: $viewModel.state.ActionForm.offerAmount, selectedImage: $viewModel.state.ActionForm.selectedImage, onYesAction: {
                 viewModel.HandleActionRequestState()
@@ -172,6 +175,29 @@ struct RequestDetailsView: View {
         }
         
     }
+//    
+//    var isActionButtonEnabled: Bool {
+//        switch viewModel.dependencies.session.user?.role {
+//        case .Admin:
+//            if viewModel.state.requestDetails?.requestStatus == .VerifyOnSolvedIssueFromAdmin {
+//                return true
+//            } else {
+//                return false
+//            }
+//        case .SuperVisor:
+//            if viewModel.state.requestDetails?.requestStatus == .PendingOfferApproval || viewModel.state.requestDetails?.requestStatus == .UploadInvoice || viewModel.state.requestDetails?.requestStatus == . {
+//                return true
+//            } else {
+//                return false
+//            }
+//        case .Worker:
+//            break
+//        case .WorkerManager:
+//            break
+//        case .none:
+//            return false
+//        }
+//    }
 }
 
 
@@ -243,6 +269,7 @@ struct PopupView: View {
     @Binding var actionState: DetailsViewModel.Status.ActionsState
     @Binding var isAccepted: Bool
     @Binding var acceptanceComment: String
+    @Binding var RequestComment: String
     @Binding var rejectionReason: SupportEnums.RejectionReasonEnum?
     @Binding var requestDuration: RequestDurationEnum?
     @Binding var rejectionComment: String
@@ -272,6 +299,10 @@ struct PopupView: View {
                     Form {
                         Toggle("Is Accepted", isOn: $isAccepted)
                         TextField("Acceptance Comment", text: $acceptanceComment)
+                        if requestStatus == .PendingSupervisorAction {
+                            TextField("Request Comment", text: $RequestComment)
+
+                        }
                         if requestStatus == .AssessmentAndGenerateOffer {
                             TextField("Offer Amont", text: $offerAmount)
                             
@@ -318,8 +349,16 @@ struct PopupView: View {
                                 }
                             }
                         }
-                        if (selectedPDF != nil) {
-                            Text("Selected PDF: \(selectedPDF)")
+                        
+                        if let image = selectedImage {
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(maxHeight: 200)
+                        }
+                        
+                        if selectedPDF != nil {
+                            Text("Selected PDF: \(selectedPDF!.absoluteString)")
                         }
                     }
                     HStack(spacing: 20) {
@@ -343,18 +382,14 @@ struct PopupView: View {
             .background(Color.white)
             .cornerRadius(10)
             .padding()
-            .fileImporter(isPresented: $isShowingPDFPicker, allowedContentTypes: [.pdf]) { result in
-                do {
-                    let fileURL = try result.get()
-                    selectedPDF = fileURL
-                } catch {
-                    print("Error selecting PDF file: \(error.localizedDescription)")
-                }
-            }
+            .sheet(isPresented: $isShowingPDFPicker) {
+                  DocumentPicker { url in
+                      selectedPDF = url
+                  }
+              }
             .sheet(isPresented: $isShowingImagePicker) {
                 ImagePicker(selectedImage: $selectedImage)
             }
-            
         }
     }
 }
@@ -373,6 +408,40 @@ struct PDFViewer: UIViewRepresentable {
     func updateUIView(_ uiView: PDFView, context: Context) {
         if let document = PDFDocument(url: url) {
             uiView.document = document
+        }
+    }
+}
+
+struct DocumentPicker: UIViewControllerRepresentable {
+    var onDocumentPicked: (URL?) -> Void
+
+    func makeUIViewController(context: Context) -> UIDocumentPickerViewController {
+        let documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.item], asCopy: true)
+        documentPicker.delegate = context.coordinator
+        return documentPicker
+    }
+
+    func updateUIViewController(_ uiViewController: UIDocumentPickerViewController, context: Context) {
+        // No updates needed
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(onDocumentPicked: onDocumentPicked)
+    }
+
+    class Coordinator: NSObject, UIDocumentPickerDelegate {
+        var onDocumentPicked: (URL?) -> Void
+
+        init(onDocumentPicked: @escaping (URL?) -> Void) {
+            self.onDocumentPicked = onDocumentPicked
+        }
+
+        func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+            onDocumentPicked(urls.first)
+        }
+
+        func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+            onDocumentPicked(nil)
         }
     }
 }

@@ -149,9 +149,9 @@ public class DetailsLoader {
                 }
                 if let fileURLWithPath {
                         print(fileURLWithPath.path)
-                    let pdfData = try! Data(contentsOf: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf".asURL())
+                    let pdfData = try! Data(contentsOf: fileURLWithPath)
                     let data: Data = pdfData
-                        multipartFormData.append(data , withName: "UploadedPDF", fileName: "pdf\(Date()).pdf", mimeType:"application/pdf")
+                        multipartFormData.append(data , withName: "UploadedPDF", fileName: "UploadedPDF.pdf", mimeType:"application/pdf")
                 }
             },
             to: URL(string: "https://bassemwwe9-001-site1.otempurl.com/api/v1/WorkerManger/worker-manager-action-on-supervisor")!, method: .post,
@@ -190,9 +190,9 @@ public class DetailsLoader {
                 }
                 if let fileURLWithPath {
                         print(fileURLWithPath.path)
-                    let pdfData = try! Data(contentsOf: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf".asURL())
+                    let pdfData = try! Data(contentsOf: fileURLWithPath)
                     let data: Data = pdfData
-                        multipartFormData.append(data , withName: "UploadedPDF", fileName: "pdf\(Date()).pdf", mimeType:"application/pdf")
+                        multipartFormData.append(data , withName: "UploadedPDF", fileName: "UploadedPDF.pdf", mimeType:"application/pdf")
                 }
             },
             to: URL(string: "https://bassemwwe9-001-site1.otempurl.com/api/v1/WorkerManger/worker-manager-action-on-supervisor-upload-invoice")!, method: .post,
@@ -321,10 +321,11 @@ struct RequestDetailsActions: Codable {
     let quantity: Int
     let offerAmount: Double?
     let RequestDuration: Int?
-
+    let requestComment: String?
     enum CodingKeys: String, CodingKey {
         case requestID = "requestId"
         case isAccepted, acceptanceComment, rejectionReason, rejectionComment, quantity, offerAmount, RequestDuration
+        case requestComment = "requestComment"
     }
 }
 

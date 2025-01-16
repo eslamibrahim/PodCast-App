@@ -43,16 +43,13 @@ struct FormView: View {
                 
                 Section(header: Text("Information")) {
                     TextField("Title", text: $viewModel.state.formData.title)
-                    TextField("Description", text: $viewModel.state.formData.description)
+                    TextField("Request Comment", text: $viewModel.state.formData.note)
                 }
                 
                 Stepper(value: $viewModel.state.formData.quantity, in: 1...Int.max) {
                     Text("Quantity: \(viewModel.state.formData.quantity)")
                 }
-                
-                Section(header: Text("Additional Details")) {
-                    TextField("Note", text: $viewModel.state.formData.note)
-                }
+
                 
                 Section(header: Text("Uploads")) {
                     Button(action: {

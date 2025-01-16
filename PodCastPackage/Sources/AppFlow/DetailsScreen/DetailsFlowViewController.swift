@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 import NetworkHandling
 import SwiftUI
+import Combine
 
 @available(iOS 18.0, *)
 public class DetailsFlowViewController: UIViewController {
@@ -17,6 +18,8 @@ public class DetailsFlowViewController: UIViewController {
     let id: Int
     let idDetails: Int
     lazy var DetailsScreen = makeDetailsScreenView()
+    var viewModel: DetailsViewModel?
+    private var subscriptions = Set<AnyCancellable>()
     var leftBarButtonItemView: UIView {
          UIImageView(image: UIImage(systemName: "arrow.backward"))
     }
@@ -36,8 +39,14 @@ public class DetailsFlowViewController: UIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-
         addVC(child: DetailsScreen)
+        viewModel?.$state.map(\.actionState)
+            .sink { [weak self] actionState in
+                if case .success = actionState {
+                    self?.navigationController?.popViewController(animated: true)
+                }
+            }
+            .store(in: &subscriptions)
     }
     
     public override func viewWillAppear(_ animated: Bool) {
@@ -51,8 +60,8 @@ public class DetailsFlowViewController: UIViewController {
     }
     
     func makeDetailsScreenView() -> UIViewController {
-        let viewModel = DetailsViewModel(dependencies: dependencies, id: id, idDetails: idDetails)
-        let vc = UIHostingController(rootView: RequestDetailsView(viewModel: viewModel))
+        viewModel = DetailsViewModel(dependencies: dependencies, id: id, idDetails: idDetails)
+        let vc = UIHostingController(rootView: RequestDetailsView(viewModel: self.viewModel!))
         return vc
     }
 

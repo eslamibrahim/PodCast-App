@@ -65,7 +65,8 @@ class DetailsViewModel: ObservableObject {
                     rejectionComment: state.ActionForm.rejectionComment,
                     quantity: 1,
                     offerAmount: nil,
-                    RequestDuration: nil)
+                    RequestDuration: nil,
+                    requestComment: state.ActionForm.requestComment)
             )
             state.actionState = .success
         }
@@ -87,7 +88,8 @@ class DetailsViewModel: ObservableObject {
                     rejectionComment: state.ActionForm.rejectionComment,
                     quantity: 1,
                     offerAmount: nil,
-                    RequestDuration: nil)
+                    RequestDuration: nil,
+                    requestComment: state.ActionForm.requestComment)
             )
             state.actionState = .success
         }
@@ -109,7 +111,8 @@ class DetailsViewModel: ObservableObject {
                     rejectionComment: state.ActionForm.rejectionComment,
                     quantity: 1,
                     offerAmount: nil,
-                    RequestDuration: nil)
+                    RequestDuration: nil,
+                    requestComment: state.ActionForm.requestComment)
             )
             state.actionState = .success
         }
@@ -131,7 +134,8 @@ class DetailsViewModel: ObservableObject {
                     rejectionComment: state.ActionForm.rejectionComment,
                     quantity: 1,
                     offerAmount: nil,
-                    RequestDuration: nil)
+                    RequestDuration: nil,
+                    requestComment: state.ActionForm.requestComment)
             )
             state.actionState = .success
         }
@@ -153,7 +157,8 @@ class DetailsViewModel: ObservableObject {
                     rejectionComment: state.ActionForm.rejectionComment,
                     quantity: 1,
                     offerAmount: nil,
-                    RequestDuration: nil)
+                    RequestDuration: nil,
+                    requestComment: state.ActionForm.requestComment)
             )
             state.actionState = .success
         }
@@ -197,11 +202,7 @@ class DetailsViewModel: ObservableObject {
                 body: [
                     "RequestId": id,
                     "IsAccepted": state.ActionForm.isAccepted ,
-                    "AcceptanceComment": state.ActionForm.acceptanceComment,
-                    "RejectionReason": state.ActionForm.rejectionReason?.rawValue,
-                    "RejectionComment": state.ActionForm.rejectionComment.isEmpty ? nil : state.ActionForm.rejectionComment,
-                    "OfferAmount": state.ActionForm.offerAmount,
-                    "RequestDuration": state.ActionForm.requestDuration?.rawValue
+                    "AcceptanceComment": state.ActionForm.acceptanceComment
                 ], completion: { result in
                     if result {
                         self.state.actionState = .success
@@ -354,6 +355,7 @@ class DetailsViewModel: ObservableObject {
             var requestID: String = ""
             var isAccepted: Bool = true
             var acceptanceComment: String = ""
+            var requestComment: String = ""
             var rejectionReason: SupportEnums.RejectionReasonEnum? = nil
             var rejectionComment: String = ""
             var quantity: Int = 1

@@ -74,9 +74,9 @@ class AddRequestViewModel: ObservableObject {
         }
         
         struct FormData {
-            var title: String = "tetst"
-            var description: String = "tetst tetst tetst"
-            var note: String = "eslam"
+            var title: String = ""
+            var description: String = ""
+            var note: String = ""
             var location: String = ""
             var pdfName: String = ""
             var quantity: Int = 1

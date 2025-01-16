@@ -29,15 +29,15 @@ class LoginViewModel: ObservableObject {
             state.state = .error(error.localizedDescription)
         }
     }
-    
-//    GaserAdmin    123456
-//    MohamedSupervisor    123456
-//    AboFahdWorkerManager    123456
-//    KhanWorker    123456
+
+//    Requester
+//    Procurement
+//    K7Manager
+//    K7Worker
     struct Status: Hashable {
         
         var state: Status.State = .idle
-        var username: String = "MohamedSupervisor"
+        var username: String = "K7Worker"
         var password: String = "123456"
         
         enum State: Hashable {

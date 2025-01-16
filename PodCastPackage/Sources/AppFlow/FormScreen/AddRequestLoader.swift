@@ -33,7 +33,6 @@ public class AddRequestLoader {
             headers: ["user-id":"\(session.token ?? "")"])
         .validate(statusCode: 200..<300)
         .response { resp in
-            
             switch resp.result{
             case .failure(let error):
                 completion(false)

@@ -14,6 +14,7 @@ struct PodCast_AppApp: App {
         WindowGroup {
             RootAppFlowView()
                 .ignoresSafeArea(.all)
+                .preferredColorScheme(.light)
         }
     }
 }

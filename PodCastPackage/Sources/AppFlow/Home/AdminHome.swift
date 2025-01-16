@@ -34,13 +34,13 @@ struct AdminHomeListView: View {
                 List(list, id: \.requestID) { item in
                     Section {
                         VStack(alignment: .leading) {
-                            Text(item.englishName)
+                            Text("\(item.requestID) - " + item.englishName)
                                 .bold()
                                 .font(.title2)
                             Divider()
                             
                             HStack(spacing: 15) {
-                                Image(systemName: "photo.fill")
+                                Image("key")
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 80, height: 80)
@@ -80,6 +80,9 @@ struct AdminHomeListView: View {
         .onAppear {
             Task{ await viewModel.loadRequestsList() } 
         }
+        .refreshable {
+            Task{ await viewModel.loadRequestsList() } 
+          }
     }
     
 }
